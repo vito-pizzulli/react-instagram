@@ -17,7 +17,7 @@ function Header() {
 
     return (
         <div>
-            <h1>Message from server: {message}</h1>
+            <h1>Message from server: {message ? message : "I'm offline!"}</h1>
         </div>
     );
 }
