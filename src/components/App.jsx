@@ -1,9 +1,10 @@
 import '../style.css';
+import Header from './Header';
 
 function App() {
   return (
     <div>
-      <h1>Instagram</h1>
+      <Header />
     </div>
   );
 }
