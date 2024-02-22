@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Header from './Header';
 import Home from './Home';
 import Login from './Login';
+import Registration from "./Registration";
 import '../style.css';
 
 function App() {
@@ -31,8 +32,9 @@ useEffect(() => {
         <Header />
         <main>
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/authenticate" replace />} />
-            <Route path="/authenticate" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
+            <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
+            <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
+            <Route path="/registration" element={<Registration />} />
           </Routes>
         </main>
       </div>
