@@ -1,6 +1,6 @@
 import '../style.css';
 
-function Authenticate() {
+function Login() {
     return (
         <div>
             <h1>Login Form</h1>
@@ -9,4 +9,4 @@ function Authenticate() {
     );
 }
 
-export default Authenticate;
+export default Login;

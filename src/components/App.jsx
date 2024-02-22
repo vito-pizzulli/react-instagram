@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from './Header';
 import Home from './Home';
-import Authenticate from './Authenticate';
+import Login from './Login';
 import '../style.css';
 
 function App() {
@@ -32,7 +32,7 @@ useEffect(() => {
         <main>
           <Routes>
             <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/authenticate" replace />} />
-            <Route path="/authenticate" element={!isAuthenticated ? <Authenticate /> : <Navigate to="/" replace />} />
+            <Route path="/authenticate" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>
