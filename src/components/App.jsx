@@ -7,11 +7,14 @@ import Registration from "./Registration";
 import '../style.css';
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState();
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   const getStatus = async () => {
     try {
-        const response = await fetch('http://localhost:3001/api/status');
+        const response = await fetch('http://localhost:3001/api/status', {
+          method: 'GET',
+          credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -32,9 +35,9 @@ useEffect(() => {
         <Header />
         <main>
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" replace />} />
+            <Route path="/" element={isAuthenticated ? <Home authenticatedFalse={() => setAuthenticated(false)} /> : <Navigate to="/login" replace />} />
             <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
-            <Route path="/registration" element={<Registration />} />
+            <Route path="/registration" element={<Registration authenticatedTrue={() => setAuthenticated(true)} />} />
           </Routes>
         </main>
       </div>
