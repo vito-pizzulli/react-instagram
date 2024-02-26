@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Registration({ setAuthenticated, setErrorMessage, errorMessage }) {
+function Registration({ setAuthenticated }) {
+    const [serverErrorMessage, setServerErrorMessage] = useState('');
+    const [validationErrorMessages, setValidationErrorMessages] = useState([]);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -20,13 +23,23 @@ function Registration({ setAuthenticated, setErrorMessage, errorMessage }) {
                 credentials: 'include'
             });
             const data = await response.json();
+            setServerErrorMessage('');
+            setValidationErrorMessages([]);
+
             if (!response.ok) {
-                setErrorMessage(data.message || 'Errore non specificato.');
-                return;
+                if (data.errors) {
+                    setValidationErrorMessages(data.errors.map(error => error.msg));
+                }
+
+                if (data.message) {
+                    setServerErrorMessage(data.message);
+                }
+
+            } else {
+                setAuthenticated(true);
+                navigate('/');
             }
-            setErrorMessage('');
-            setAuthenticated(true);
-            navigate('/');
+
         } catch (err) {
             console.error(err);
         }
@@ -36,7 +49,12 @@ function Registration({ setAuthenticated, setErrorMessage, errorMessage }) {
         <div className='registration'>
             <form onSubmit={handleSubmit}>
                 <h2>Inserisci i tuoi dati</h2>
-                {errorMessage && <p>{errorMessage}</p>}
+                {serverErrorMessage && <p>{serverErrorMessage}</p>}
+                <ul>
+                    {validationErrorMessages.map((validationErrorMessage, index) => (
+                        <li key={index}>{validationErrorMessage}</li>
+                    ))}
+                </ul>
                 <label htmlFor="email">Email</label>
                 <input type="email" name='email' />
                 <label htmlFor="email">Password</label>
