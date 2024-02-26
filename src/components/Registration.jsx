@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Registration({ setAuthenticated }) {
+function Registration({ setAuthenticated, setConfirmMessage }) {
     const [serverErrorMessage, setServerErrorMessage] = useState('');
     const [validationErrorMessages, setValidationErrorMessages] = useState([]);
     const navigate = useNavigate();
@@ -37,6 +37,7 @@ function Registration({ setAuthenticated }) {
 
             } else {
                 localStorage.setItem('authUserInfo', JSON.stringify(data.user));
+                setConfirmMessage(data.message);
                 setAuthenticated(true);
                 navigate('/');
             }

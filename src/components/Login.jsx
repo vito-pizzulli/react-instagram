@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Login() {
+function Login({ confirmMessage }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -13,6 +13,7 @@ function Login() {
             <div className='login-area'>
                 <form action="" method='POST'>
                     <h2>Login</h2>
+                    {confirmMessage && <p>{confirmMessage}</p>}
                     <label htmlFor="email">Email</label>
                     <input type="text" name='email' />
                     <label htmlFor="password">Password</label>

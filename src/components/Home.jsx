@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Home({ setAuthenticated, authUserInfo }) {
+function Home({ setAuthenticated, authUserInfo, confirmMessage, setConfirmMessage }) {
     const navigate = useNavigate();
     const [logoutErrorMessage, setLogoutErrorMessage] = useState('');
 
@@ -19,6 +19,7 @@ function Home({ setAuthenticated, authUserInfo }) {
                 return;
             }
             setLogoutErrorMessage('');
+            setConfirmMessage(data.message);
             setAuthenticated(false);
             navigate('/login');
         } catch (err) {
@@ -28,6 +29,8 @@ function Home({ setAuthenticated, authUserInfo }) {
     
     return (
         <div className='homepage'>
+            {confirmMessage && <p>{confirmMessage}</p>}
+            
             <h2>Benvenuto, {authUserInfo.username}!</h2>
             <p>Email: {authUserInfo.email}</p>
             <p>Nome: {authUserInfo.firstname}</p>

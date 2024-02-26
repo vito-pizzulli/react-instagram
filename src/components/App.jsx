@@ -9,6 +9,7 @@ import '../style.css';
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [authUserInfo, setAuthUserInfo] = useState(null);
+  const [confirmMessage, setConfirmMessage] = useState('');
 
   const getStatus = async () => {
     try {
@@ -37,9 +38,19 @@ useEffect(() => {
         <Header />
         <main>
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Home setAuthenticated={setAuthenticated} authUserInfo={authUserInfo} /> : <Navigate to="/login" replace />} />
-            <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
-            <Route path="/registration" element={<Registration setAuthenticated={setAuthenticated} />} />
+            <Route path="/" element={isAuthenticated ? <Home
+              setAuthenticated={setAuthenticated}
+              authUserInfo={authUserInfo}
+              confirmMessage={confirmMessage}
+              setConfirmMessage={setConfirmMessage}
+            /> : <Navigate to="/login" replace />} />
+            <Route path="/login" element={!isAuthenticated ? <Login
+              confirmMessage={confirmMessage}
+            /> : <Navigate to="/" replace />} />
+            <Route path="/registration" element={<Registration
+              setAuthenticated={setAuthenticated}
+              setConfirmMessage={setConfirmMessage}
+            />} />
           </Routes>
         </main>
       </div>
