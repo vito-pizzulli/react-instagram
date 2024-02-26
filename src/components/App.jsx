@@ -8,7 +8,6 @@ import '../style.css';
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const getStatus = async () => {
     try {
@@ -33,9 +32,9 @@ useEffect(() => {
         <Header />
         <main>
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Home setAuthenticated={setAuthenticated} setErrorMessage={setErrorMessage} errorMessage={errorMessage} /> : <Navigate to="/login" replace />} />
+            <Route path="/" element={isAuthenticated ? <Home setAuthenticated={setAuthenticated} /> : <Navigate to="/login" replace />} />
             <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/" replace />} />
-            <Route path="/registration" element={<Registration setAuthenticated={setAuthenticated} setErrorMessage={setErrorMessage} errorMessage={errorMessage} />} />
+            <Route path="/registration" element={<Registration setAuthenticated={setAuthenticated} />} />
           </Routes>
         </main>
       </div>

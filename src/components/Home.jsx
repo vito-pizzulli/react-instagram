@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Home({ setAuthenticated, setErrorMessage, errorMessage }) {
+function Home({ setAuthenticated }) {
     const navigate = useNavigate();
+    const [logoutErrorMessage, setLogoutErrorMessage] = useState('');
 
     const handleLogout = async (event) => {
         event.preventDefault();
@@ -13,10 +15,10 @@ function Home({ setAuthenticated, setErrorMessage, errorMessage }) {
             });
             const data = await response.json();
             if (!response.ok) {
-                setErrorMessage(data.message || 'Errore non specificato.');
+                setLogoutErrorMessage(data.message || 'Errore non specificato.');
                 return;
             }
-            setErrorMessage('');
+            setLogoutErrorMessage('');
             setAuthenticated(false);
             navigate('/login');
         } catch (err) {
@@ -27,7 +29,7 @@ function Home({ setAuthenticated, setErrorMessage, errorMessage }) {
     return (
         <div className='homepage'>
             <h1>Homepage</h1>
-            {errorMessage && <p>{errorMessage}</p>}
+            {logoutErrorMessage && <p>{logoutErrorMessage}</p>}
             <button onClick={handleLogout}>Logout</button>
         </div>
     );
