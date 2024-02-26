@@ -19,6 +19,7 @@ function App() {
       });
       const data = await response.json();
       setAuthenticated(data.isAuthenticated);
+      setAuthUserInfo(data.user);
     } catch (err) {
       console.error(err);
     }
@@ -26,10 +27,6 @@ function App() {
 
 useEffect(() => {
     getStatus();
-    const getUserInfo = localStorage.getItem('authUserInfo');
-    if (getUserInfo) {
-      setAuthUserInfo(JSON.parse(getUserInfo));
-    }
 }, []);
 
   return (
@@ -49,6 +46,7 @@ useEffect(() => {
             /> : <Navigate to="/" replace />} />
             <Route path="/registration" element={<Registration
               setAuthenticated={setAuthenticated}
+              setAuthUserInfo={setAuthUserInfo}
               setConfirmMessage={setConfirmMessage}
             />} />
           </Routes>
