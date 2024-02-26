@@ -64,9 +64,7 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
                 <label htmlFor="username">Username</label>
                 <input type="text" name='username' />
                 <label htmlFor="firstname">Nome</label>
-                <input type="text" name='firstname' />
-                <label htmlFor="lastname">Cognome</label>
-                <input type="text" name='lastname' />
+                <input type="text" name='name' />
                 <button type='submit'>Registrati</button>
                 <button type='reset'>Resetta i campi</button>
             </form>
