@@ -36,6 +36,7 @@ function Registration({ setAuthenticated }) {
                 }
 
             } else {
+                localStorage.setItem('authUserInfo', JSON.stringify(data.user));
                 setAuthenticated(true);
                 navigate('/');
             }

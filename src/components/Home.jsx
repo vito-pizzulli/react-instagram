@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Home({ setAuthenticated }) {
+function Home({ setAuthenticated, authUserInfo }) {
     const navigate = useNavigate();
     const [logoutErrorMessage, setLogoutErrorMessage] = useState('');
 
@@ -28,7 +28,11 @@ function Home({ setAuthenticated }) {
     
     return (
         <div className='homepage'>
-            <h1>Homepage</h1>
+            <h2>Benvenuto, {authUserInfo.username}!</h2>
+            <p>Email: {authUserInfo.email}</p>
+            <p>Nome: {authUserInfo.firstname}</p>
+            <p>Cognome: {authUserInfo.lastname}</p>
+
             {logoutErrorMessage && <p>{logoutErrorMessage}</p>}
             <button onClick={handleLogout}>Logout</button>
         </div>
