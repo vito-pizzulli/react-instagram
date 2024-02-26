@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Registration({ authenticatedTrue }) {
+function Registration({ setAuthenticated, setErrorMessage, errorMessage }) {
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -19,17 +19,16 @@ function Registration({ authenticatedTrue }) {
                 body: JSON.stringify(formDataObject),
                 credentials: 'include'
             });
-
-            if (response.ok) {
-                authenticatedTrue();
-                navigate('/');
-            } else {
-                const errorData = await response.json();
-                alert(errorData.message);
+            const data = await response.json();
+            if (!response.ok) {
+                setErrorMessage(data.message || 'Errore non specificato.');
+                return;
             }
-        } catch (error) {
-            console.error('Error during registration:', error);
-            alert('Errore durante la registrazione. Riprova piú tardi.');
+            setErrorMessage('');
+            setAuthenticated(true);
+            navigate('/');
+        } catch (err) {
+            console.error(err);
         }
     }
 
@@ -37,6 +36,7 @@ function Registration({ authenticatedTrue }) {
         <div className='registration'>
             <form onSubmit={handleSubmit}>
                 <h2>Inserisci i tuoi dati</h2>
+                {errorMessage && <p>{errorMessage}</p>}
                 <label htmlFor="email">Email</label>
                 <input type="email" name='email' />
                 <label htmlFor="email">Password</label>
