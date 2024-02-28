@@ -31,9 +31,9 @@ function Home({ setAuthenticated, authUserInfo, confirmMessage, setConfirmMessag
         <div className='homepage'>
             {confirmMessage && <p>{confirmMessage}</p>}
 
-            <h2>Benvenuto, {authUserInfo.username}!</h2>
-            <p>Email: {authUserInfo.email}</p>
-            <p>Nome: {authUserInfo.name}</p>
+            <h2>Benvenuto, {authUserInfo.username || 'username'}!</h2>
+            <p>Email: {authUserInfo.email || 'email'}</p>
+            <p>Nome: {authUserInfo.name || 'name'}</p>
 
             {logoutErrorMessage && <p>{logoutErrorMessage}</p>}
             <button onClick={handleLogout}>Logout</button>
