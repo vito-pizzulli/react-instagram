@@ -10,6 +10,10 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
         navigate('/registration');
     };
 
+    function handleGoogleLogin() {
+        window.location.href = 'http://localhost:3001/auth/google';
+    };
+
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -43,7 +47,7 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     return (
         <div className='authentication'>
@@ -57,7 +61,7 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
                     <input type="password" name='password' />
                     <button type='submit'>Accedi</button>
                 </form>
-                <button>Accedi con Google</button>
+                <button onClick={handleGoogleLogin}>Accedi con Google</button>
             </div>
             <div className='registration-area'>
                 <h2>Non sei ancora registrato?</h2>
