@@ -6,7 +6,7 @@ function Home({ setAuthenticated, authUserInfo, confirmMessage, setConfirmMessag
     const navigate = useNavigate();
     const [logoutErrorMessage, setLogoutErrorMessage] = useState('');
 
-    const handleLogout = async (event) => {
+    async function handleLogout(event) {
         event.preventDefault();
 
         try {
