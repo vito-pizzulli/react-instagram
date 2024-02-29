@@ -45,6 +45,7 @@ useEffect(() => {
               setAuthenticated={setAuthenticated}
               setAuthUserInfo={setAuthUserInfo}
               setConfirmMessage={setConfirmMessage}
+              confirmMessage={confirmMessage}
             /> : <Navigate to="/" replace />} />
             <Route path="/registration" element={<Registration
               setAuthenticated={setAuthenticated}

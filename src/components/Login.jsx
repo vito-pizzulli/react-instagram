@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
+function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage }) {
     const [serverInternalError, setServerInternalError] = useState('');
     const navigate = useNavigate();
 
@@ -54,6 +54,7 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
             <div className='login-area'>
                 <form onSubmit={handleSubmit}>
                     <h2>Login</h2>
+                    {confirmMessage && <p>{confirmMessage}</p>}
                     {serverInternalError && <p>{serverInternalError}</p>}
                     <label htmlFor="email">Email</label>
                     <input type="email" name='email' />
