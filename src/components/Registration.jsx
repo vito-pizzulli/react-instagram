@@ -23,12 +23,19 @@ const validationSchema = yup.object({
         .required('Il campo username non può essere vuoto.')
         .min(3, 'L\'username deve contenere tra 3 e 30 caratteri.')
         .max(30, 'L\'username deve contenere tra 3 e 30 caratteri.')
-        .matches(/^[a-zA-Z0-9_]+$/, 'L\'username può contenere solo lettere, numeri e underscore.'),
+        .matches(/^[a-zA-Z0-9_.]+$/, 'L\'username può contenere solo lettere, numeri, underscore e punti.'),
     
     name: yup.string()
         .required('Il campo nome non può essere vuoto.')
         .max(50, 'Il nome non può contenere più di 50 caratteri.')
-        .matches(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, 'Il nome può contenere solo lettere.')
+        .matches(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/, 'Il nome può contenere solo lettere.'),
+
+    profile_pic_url: yup.mixed()
+        .required("É necessario caricare un'immagine di profilo.")
+        .test(
+            "fileFormat",
+            "É necessario caricare un'immagine in formato jpg o png.",
+            value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
 function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
@@ -42,16 +49,26 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
             password: '',
             username: '',
             name: '',
+            profile_pic_url: null
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
+            const formData = new FormData();
+            Object.keys(values).forEach(key => {
+
+                if (key !== 'profile_pic_url') {
+                    formData.append(key, values[key]);
+                }
+            });
+
+            if (values.profile_pic_url) {
+                formData.append("profile_pic_url", values.profile_pic_url);
+            }
+            
             try {
                 const response = await fetch('http://localhost:3001/api/register', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(values),
+                    body: formData,
                     credentials: 'include'
                 });
                 const data = await response.json();
@@ -82,6 +99,11 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
 
     function handleReset() {
         formik.resetForm();
+    };
+
+    function handleFileChange(event) {
+        const file = event.currentTarget.files[0];
+        formik.setFieldValue("profile_pic_url", file);
     };
 
     return (
@@ -121,6 +143,7 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
                     onBlur={formik.handleBlur}
                 />
                 {formik.touched.username && formik.errors.username ? <p>{formik.errors.username}</p> : null}
+
                 <label htmlFor="name">Nome</label>
                 <input
                     type="name"
@@ -130,6 +153,15 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
                     onBlur={formik.handleBlur}
                 />
                 {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
+
+                <label htmlFor="profile_pic_url">Immagine del profilo</label>
+                <input
+                    type="file"
+                    name='profile_pic_url'
+                    onChange={handleFileChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p>{formik.errors.profile_pic_url}</p> : null}
                 <button type='submit'>Registrati</button>
                 <button type='reset' onClick={handleReset}>Resetta i campi</button>
             </form>
