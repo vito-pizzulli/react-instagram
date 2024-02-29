@@ -5,6 +5,7 @@ import '../style.css';
 function Home({ setAuthenticated, authUserInfo, confirmMessage, setConfirmMessage }) {
     const navigate = useNavigate();
     const [logoutErrorMessage, setLogoutErrorMessage] = useState('');
+    const serverUrl = 'http://localhost:3001/';
 
     async function handleLogout(event) {
         event.preventDefault();
@@ -31,9 +32,10 @@ function Home({ setAuthenticated, authUserInfo, confirmMessage, setConfirmMessag
         <div className='homepage'>
             {confirmMessage && <p>{confirmMessage}</p>}
 
-            <h2>Benvenuto, {authUserInfo.username || 'username'}!</h2>
+            <h2>Ciao, {authUserInfo.username || 'username'}!</h2>
             <p>Email: {authUserInfo.email || 'email'}</p>
             <p>Nome: {authUserInfo.name || 'name'}</p>
+            <img src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt="Profile Pic" />
 
             {logoutErrorMessage && <p>{logoutErrorMessage}</p>}
             <button onClick={handleLogout}>Logout</button>
