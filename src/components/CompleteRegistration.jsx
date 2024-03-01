@@ -157,7 +157,6 @@ function CompleteRegistration() {
                 <button type='submit'>Completa profilo</button>
                 <button type='reset' onClick={handleReset}>Resetta i campi</button>
             </form>
-            {serverInternalError && <p>{serverInternalError}</p>}
             <button onClick={handleLogout}>Logout</button>
         </div>
     )
