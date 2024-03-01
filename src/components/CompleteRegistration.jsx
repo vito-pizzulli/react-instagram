@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useAuth } from '../contexts/AuthContext';
+import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
 const validationSchema = yup.object({
@@ -23,7 +25,9 @@ const validationSchema = yup.object({
             value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
-function CompleteRegistration({ serverUrl, serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors, setAuthenticated, setAuthUserInfo, authUserInfo, setConfirmMessage }) {
+function CompleteRegistration() {
+    const { serverUrl, setAuthenticated, authUserInfo, setAuthUserInfo, setConfirmMessage } = useAuth();
+    const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
 
     async function handleLogout(event) {
@@ -35,7 +39,7 @@ function CompleteRegistration({ serverUrl, serverInternalError, setServerInterna
             });
             const data = await response.json();
             if (!response.ok) {
-                setServerInternalError(data.message || 'Errore non specificato.');
+                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
                 return;
             }
             setServerInternalError('');

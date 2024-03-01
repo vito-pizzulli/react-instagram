@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useAuth } from '../contexts/AuthContext';
+import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
 const validationSchema = yup.object({
@@ -37,7 +39,9 @@ const validationSchema = yup.object({
             value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
-function Registration({ serverUrl, serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors, setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
+function Registration() {
+    const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage } = useAuth();
+    const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
 
     const formik = useFormik({

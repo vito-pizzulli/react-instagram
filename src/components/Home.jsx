@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
-function Home({ serverUrl, serverInternalError, setServerInternalError, setAuthenticated, authUserInfo, confirmMessage, setConfirmMessage }) {
+function Home() {
+    const { serverUrl, setAuthenticated, authUserInfo, confirmMessage, setConfirmMessage } = useAuth();
+    const { serverInternalError, setServerInternalError } = useErrors();
     const navigate = useNavigate();
 
     async function handleLogout(event) {
@@ -13,7 +17,7 @@ function Home({ serverUrl, serverInternalError, setServerInternalError, setAuthe
             });
             const data = await response.json();
             if (!response.ok) {
-                setServerInternalError(data.message || 'Errore non specificato.');
+                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
                 return;
             }
             setServerInternalError('');

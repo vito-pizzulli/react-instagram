@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
-function Login({ serverUrl, serverInternalError, setServerInternalError, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage }) {
+function Login() {
+    const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage } = useAuth();
+    const { serverInternalError, setServerInternalError } = useErrors();
     const navigate = useNavigate();
 
     function handleClick() {
