@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -38,9 +37,7 @@ const validationSchema = yup.object({
             value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
-function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
-    const [serverInternalError, setserverInternalError] = useState('');
-    const [serverValidationErrors, setServerValidationErrors] = useState([]);
+function Registration({ serverUrl, serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors, setAuthenticated, setAuthUserInfo, setConfirmMessage }) {
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -66,13 +63,13 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
             }
             
             try {
-                const response = await fetch('http://localhost:3001/api/register', {
+                const response = await fetch(`${serverUrl}api/register`, {
                     method: 'POST',
                     body: formData,
                     credentials: 'include'
                 });
                 const data = await response.json();
-                setserverInternalError('');
+                setServerInternalError('');
                 setServerValidationErrors([]);
 
                 if (!response.ok) {
@@ -81,7 +78,7 @@ function Registration({ setAuthenticated, setAuthUserInfo, setConfirmMessage }) 
                     }
 
                     if (data.message) {
-                        setserverInternalError(data.message);
+                        setServerInternalError(data.message);
                     }
 
                 } else {

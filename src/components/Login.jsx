@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style.css';
 
-function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage }) {
-    const [serverInternalError, setServerInternalError] = useState('');
+function Login({ serverUrl, serverInternalError, setServerInternalError, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage }) {
     const navigate = useNavigate();
 
     function handleClick() {
@@ -11,7 +9,7 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMe
     };
 
     function handleGoogleLogin() {
-        window.location.href = 'http://localhost:3001/auth/google';
+        window.location.href = `${serverUrl}auth/google`;
     };
 
     async function handleSubmit(event) {
@@ -19,9 +17,15 @@ function Login({ setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMe
 
         const formData = new FormData(event.target);
         const formDataObject = Object.fromEntries(formData.entries());
+        const { email, password } = formDataObject;
+
+        if (!email.trim() || !password.trim()) {
+            setServerInternalError("Email e password sono campi obbligatori.");
+            return;
+        }
 
         try {
-            const response = await fetch('http://localhost:3001/api/login', {
+            const response = await fetch(`${serverUrl}api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
