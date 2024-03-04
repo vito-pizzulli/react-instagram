@@ -4,7 +4,7 @@ import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
 function Header() {
-    const { isAuthenticated, setAuthenticated, serverUrl, setConfirmMessage } = useAuth();
+    const { isAuthenticated, setAuthenticated, authUserInfo, serverUrl, setConfirmMessage } = useAuth();
     const { setServerInternalError } = useErrors();
     const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ function Header() {
     return (
         <header>
             <h1>Instagram</h1>
-            {isAuthenticated && <button onClick={() => handleNavigation('/')}>Home</button>}
-            {isAuthenticated && <button onClick={() => handleNavigation('/my-profile')}>Il mio profilo</button>}
+            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/')}>Home</button> : null}
+            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/my-profile')}>Il mio profilo</button> : null}
             {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
         </header>
     );
