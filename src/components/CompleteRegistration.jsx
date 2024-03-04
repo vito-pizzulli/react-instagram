@@ -128,7 +128,7 @@ function CompleteRegistration() {
                 
                 <label htmlFor="username">Username</label>
                 <input
-                    type="username"
+                    type="text"
                     name="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
@@ -138,7 +138,7 @@ function CompleteRegistration() {
 
                 <label htmlFor="name">Nome</label>
                 <input
-                    type="name"
+                    type="text"
                     name="name"
                     onChange={formik.handleChange}
                     value={formik.values.name}

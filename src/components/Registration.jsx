@@ -113,15 +113,15 @@ function Registration() {
 
     return (
         <div className='registration'>
+            <h2>Inserisci i tuoi dati</h2>
+            <button onClick={handleLoginNavigation}>Indietro</button>
+            {serverInternalError && <p>{serverInternalError}</p>}
+            <ul>
+                {serverValidationErrors.map((serverValidationError, index) => (
+                    <li key={index}>{serverValidationError}</li>
+                ))}
+            </ul>
             <form onSubmit={formik.handleSubmit}>
-                <h2>Inserisci i tuoi dati</h2>
-                <button onClick={handleLoginNavigation}>Indietro</button>
-                {serverInternalError && <p>{serverInternalError}</p>}
-                <ul>
-                    {serverValidationErrors.map((serverValidationError, index) => (
-                        <li key={index}>{serverValidationError}</li>
-                    ))}
-                </ul>
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
@@ -142,7 +142,7 @@ function Registration() {
                 {formik.touched.password && formik.errors.password ? <p>{formik.errors.password}</p> : null}
                 <label htmlFor="username">Username</label>
                 <input
-                    type="username"
+                    type="text"
                     name="username"
                     onChange={formik.handleChange}
                     value={formik.values.username}
@@ -152,7 +152,7 @@ function Registration() {
 
                 <label htmlFor="name">Nome</label>
                 <input
-                    type="name"
+                    type="text"
                     name="name"
                     onChange={formik.handleChange}
                     value={formik.values.name}

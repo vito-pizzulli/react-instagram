@@ -4,7 +4,7 @@ import { useErrors } from '../contexts/ErrorsContext';
 import '../style.css';
 
 function MyProfile() {
-    const { serverUrl, setAuthenticated, authUserInfo, setConfirmMessage } = useAuth();
+    const { serverUrl, setAuthenticated, authUserInfo, confirmMessage, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ function MyProfile() {
     
     return (
         <div className='homepage'>
-
+            {confirmMessage && <p>{confirmMessage}</p>}
             <h2>{authUserInfo.username || 'username'}</h2>
             <p>{authUserInfo.name || 'name'}</p>
             <img src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt="Profile Pic" />

@@ -9,6 +9,7 @@ function Login() {
     const navigate = useNavigate();
 
     function handleClick() {
+        setConfirmMessage('');
         navigate('/registration');
     };
 
@@ -19,6 +20,7 @@ function Login() {
     async function handleSubmit(event) {
         event.preventDefault();
 
+        setConfirmMessage('');
         const formData = new FormData(event.target);
         const formDataObject = Object.fromEntries(formData.entries());
         const { email, password } = formDataObject;
