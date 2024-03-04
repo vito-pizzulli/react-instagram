@@ -26,30 +26,9 @@ const validationSchema = yup.object({
 });
 
 function CompleteRegistration() {
-    const { serverUrl, setAuthenticated, authUserInfo, setAuthUserInfo, setConfirmMessage } = useAuth();
+    const { serverUrl, authUserInfo, setAuthUserInfo, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
-
-    async function handleLogout(event) {
-        event.preventDefault();
-
-        try {
-            const response = await fetch(`${serverUrl}api/logout`, { method: 'GET',
-            credentials: 'include'
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
-                return;
-            }
-            setServerInternalError('');
-            setConfirmMessage(data.message);
-            setAuthenticated(false);
-            navigate('/login');
-        } catch (err) {
-            console.error(err);
-        }
-    }
 
     const formik = useFormik({
         initialValues: {
@@ -157,7 +136,6 @@ function CompleteRegistration() {
                 <button type='submit'>Completa profilo</button>
                 <button type='reset' onClick={handleReset}>Resetta i campi</button>
             </form>
-            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }
