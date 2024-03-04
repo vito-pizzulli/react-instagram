@@ -102,6 +102,10 @@ function Registration() {
         formik.resetForm();
     };
 
+    function handleLoginNavigation() {
+        navigate('/login');
+    };
+
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
         formik.setFieldValue("profile_pic_url", file);
@@ -111,6 +115,7 @@ function Registration() {
         <div className='registration'>
             <form onSubmit={formik.handleSubmit}>
                 <h2>Inserisci i tuoi dati</h2>
+                <button onClick={handleLoginNavigation}>Indietro</button>
                 {serverInternalError && <p>{serverInternalError}</p>}
                 <ul>
                     {serverValidationErrors.map((serverValidationError, index) => (
