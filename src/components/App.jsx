@@ -5,6 +5,8 @@ import Home from './Home';
 import Login from './Login';
 import Registration from "./Registration";
 import CompleteRegistration from "./CompleteRegistration";
+import MyProfile from "./MyProfile";
+import MyProfileSettings from "./MyProfileSettings";
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
 import '../style.css';
@@ -61,6 +63,20 @@ function App() {
             
             <Route path="/complete-registration" element={
               <CompleteRegistration />}
+            />
+
+            <Route path="/my-profile" element={
+              requiresCompleteRegistration() ?
+                <Navigate to="/complete-registration" replace /> :
+              isAuthenticated ?
+                <MyProfile /> : <Navigate to="/login" replace />}
+            />
+
+            <Route path="/my-profile/settings" element={
+              requiresCompleteRegistration() ?
+                <Navigate to="/complete-registration" replace /> :
+              isAuthenticated ?
+                <MyProfileSettings /> : <Navigate to="/login" replace />}
             />
           </Routes>
         </main>
