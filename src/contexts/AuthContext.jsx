@@ -10,6 +10,7 @@ function AuthProvider({ children }) {
     const [isAuthenticated, setAuthenticated] = useState(false);
     const [authUserInfo, setAuthUserInfo] = useState({});
     const [confirmMessage, setConfirmMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const serverUrl = 'http://localhost:3001/';
 
     const value = {
@@ -19,7 +20,9 @@ function AuthProvider({ children }) {
         setAuthUserInfo,
         confirmMessage,
         setConfirmMessage,
-        serverUrl
+        serverUrl,
+        isLoading,
+        setIsLoading
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

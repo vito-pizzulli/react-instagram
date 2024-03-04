@@ -7,16 +7,18 @@ import Registration from "./Registration";
 import CompleteRegistration from "./CompleteRegistration";
 import MyProfile from "./MyProfile";
 import MyProfileSettings from "./MyProfileSettings";
+import Loading from "./Loading";
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
 import '../style.css';
 
 function App() {
 
-  const { serverUrl, isAuthenticated, setAuthenticated, authUserInfo, setAuthUserInfo } = useAuth();
+  const { serverUrl, isAuthenticated, setAuthenticated, authUserInfo, setAuthUserInfo, isLoading, setIsLoading } = useAuth();
   const { setServerInternalError } = useErrors();
 
   useEffect(() => {
+    setIsLoading(true);
     const getStatus = async () => {
       try {
         const response = await fetch(`${serverUrl}api/status`, {
@@ -26,6 +28,7 @@ function App() {
         const data = await response.json();
         setAuthenticated(data.isAuthenticated);
         setAuthUserInfo(data.user);
+        setIsLoading(false);
       } catch (err) {
         console.error(err);
         setServerInternalError('Si è verificato un errore durante il recupero dello stato di autenticazione.');
@@ -33,7 +36,7 @@ function App() {
     };
   
     getStatus();
-  }, [ serverUrl, setAuthenticated, setAuthUserInfo, setServerInternalError ]);
+  }, [ serverUrl, setAuthenticated, setAuthUserInfo, setServerInternalError, setIsLoading ]);
   
   const requiresCompleteRegistration = () => {
     return isAuthenticated && (!authUserInfo.username || !authUserInfo.name || !authUserInfo.profile_pic_url);
@@ -46,6 +49,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={
+              isLoading ? <Loading /> :
               requiresCompleteRegistration() ?
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
@@ -66,6 +70,7 @@ function App() {
             />
 
             <Route path="/my-profile" element={
+              isLoading ? <Loading /> :
               requiresCompleteRegistration() ?
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
@@ -73,6 +78,7 @@ function App() {
             />
 
             <Route path="/my-profile/settings" element={
+              isLoading ? <Loading /> :
               requiresCompleteRegistration() ?
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
