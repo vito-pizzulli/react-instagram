@@ -19,6 +19,9 @@ const validationSchema = yup.object({
         .matches(/[a-z]/, 'La password deve contenere almeno una lettera minuscola.')
         .matches(/[A-Z]/, 'La password deve contenere almeno una lettera maiuscola.')
         .matches(/[!@#$%^&*(),.?":{}|<>]/, 'La password deve contenere almeno un simbolo speciale.'),
+
+    password_confirm: yup.string()
+        .oneOf([yup.ref('password'), null], 'Le password non corrispondono.'),
     
     username: yup.string()
         .required('Il campo username non può essere vuoto.')
@@ -48,6 +51,7 @@ function Registration() {
         initialValues: {
             email: '',
             password: '',
+            password_confirm: '',
             username: '',
             name: '',
             profile_pic_url: null
@@ -122,6 +126,7 @@ function Registration() {
                 ))}
             </ul>
             <form onSubmit={formik.handleSubmit}>
+
                 <label htmlFor="email">Email</label>
                 <input
                     type="email"
@@ -140,6 +145,17 @@ function Registration() {
                     onBlur={formik.handleBlur}
                 />
                 {formik.touched.password && formik.errors.password ? <p>{formik.errors.password}</p> : null}
+                
+                <label htmlFor="password_confirm">Conferma Password</label>
+                <input
+                    type="password"
+                    name="password_confirm"
+                    onChange={formik.handleChange}
+                    value={formik.values.password_confirm}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.password_confirm && formik.errors.password_confirm ? <p>{formik.errors.password_confirm}</p> : null}
+
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
@@ -160,7 +176,7 @@ function Registration() {
                 />
                 {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
 
-                <label htmlFor="profile_pic_url">Immagine del profilo</label>
+                <label htmlFor="profile_pic_url">Immagine del Profilo</label>
                 <input
                     type="file"
                     name='profile_pic_url'
