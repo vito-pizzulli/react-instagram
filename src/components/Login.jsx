@@ -11,7 +11,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-    function handleClick() {
+    function handleRegistrationNavigation() {
         setConfirmMessage('');
         navigate('/registration');
     };
@@ -96,7 +96,7 @@ function Login() {
             </div>
             <div className='registration-area'>
                 <h2>Non sei ancora registrato?</h2>
-                <button onClick={handleClick}>Registrati ora</button>
+                <button onClick={handleRegistrationNavigation}>Registrati ora</button>
             </div>
         </div>
     );
