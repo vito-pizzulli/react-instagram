@@ -34,7 +34,7 @@ function MyProfile() {
     }
     
     return (
-        <div className='homepage'>
+        <div className='my-profile'>
             {confirmMessage && <p>{confirmMessage}</p>}
             <h2>{authUserInfo.username || 'username'}</h2>
             <p>{authUserInfo.name || 'name'}</p>

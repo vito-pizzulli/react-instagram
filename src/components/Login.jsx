@@ -71,7 +71,7 @@ function Login() {
 
     return (
         <div className='authentication'>
-            <div className='login-area'>
+            <div className='login'>
                 <form onSubmit={handleSubmit}>
                     <h2>Login</h2>
                     {confirmMessage && <p>{confirmMessage}</p>}

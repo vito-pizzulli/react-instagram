@@ -95,7 +95,7 @@ function CompleteRegistration() {
     };
 
     return (
-        <div className='registration'>
+        <div className='complete-registration'>
             <form onSubmit={formik.handleSubmit}>
                 <h2>Completa il tuo profilo</h2>
                 {serverInternalError && <p>{serverInternalError}</p>}

@@ -112,7 +112,7 @@ function MyProfileSettings() {
     };
     
     return (
-        <div className='homepage'>
+        <div className='my-profile-settings'>
 
             <h2>Modifica i tuoi dati</h2>
             {serverInternalError && <p>{serverInternalError}</p>}
