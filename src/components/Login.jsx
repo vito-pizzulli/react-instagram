@@ -7,8 +7,8 @@ import '../style.css';
 function Login() {
     const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     function handleClick() {
@@ -81,6 +81,7 @@ function Login() {
                         type="email"
                         name='email'
                         value={email}
+                        onChange={event => setEmail(event.target.value)}
                     />
                     <label htmlFor="password">Password</label>
                     <input 
