@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
@@ -6,6 +7,8 @@ import '../style.css';
 function Login() {
     const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     const navigate = useNavigate();
 
     function handleClick() {
@@ -17,15 +20,22 @@ function Login() {
         window.location.href = `${serverUrl}auth/google`;
     };
 
+    function resetPassword() {
+        setPassword('');
+    };
+
     async function handleSubmit(event) {
         event.preventDefault();
 
         setConfirmMessage('');
+        setServerInternalError('');
         const formData = new FormData(event.target);
         const formDataObject = Object.fromEntries(formData.entries());
-        const { email, password } = formDataObject;
+        console.log(formDataObject);
+        setEmail(formDataObject.email);
+        setPassword(formDataObject.password);
 
-        if (!email.trim() || !password.trim()) {
+        if (!formDataObject.email.trim() || !formDataObject.password.trim()) {
             setServerInternalError("Email e password sono campi obbligatori.");
             return;
         }
@@ -40,10 +50,10 @@ function Login() {
                 credentials: 'include'
             });
             const data = await response.json();
-            setServerInternalError('');
 
             if (!response.ok) {
-                
+                resetPassword();
+
                 if (data.message) {
                     setServerInternalError(data.message);
                 }
@@ -67,9 +77,18 @@ function Login() {
                     {confirmMessage && <p>{confirmMessage}</p>}
                     {serverInternalError && <p>{serverInternalError}</p>}
                     <label htmlFor="email">Email</label>
-                    <input type="email" name='email' />
+                    <input
+                        type="email"
+                        name='email'
+                        value={email}
+                    />
                     <label htmlFor="password">Password</label>
-                    <input type="password" name='password' />
+                    <input 
+                        type="password"
+                        name='password'
+                        value={password}
+                        onChange={event => setPassword(event.target.value)}
+                    />
                     <button type='submit'>Accedi</button>
                 </form>
                 <button onClick={handleGoogleLogin}>Accedi con Google</button>
