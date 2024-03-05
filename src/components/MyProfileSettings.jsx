@@ -34,7 +34,8 @@ const validationSchema = yup.object({
         .test(
             "fileFormat",
             "É necessario caricare un'immagine in formato jpg o png.",
-            value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)),
+            value => !value || (value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
+        ),
 
     bio: yup.string()
         .nullable()
