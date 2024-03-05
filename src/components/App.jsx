@@ -8,6 +8,7 @@ import CompleteRegistration from "./CompleteRegistration";
 import MyProfile from "./MyProfile";
 import MyProfileSettings from "./MyProfileSettings";
 import Loading from "./Loading";
+import AddPost from "./AddPost";
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
 import '../style.css';
@@ -83,6 +84,14 @@ function App() {
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
                 <MyProfileSettings /> : <Navigate to="/login" replace />}
+            />
+
+            <Route path="/add-post" element={
+              isLoading ? <Loading /> :
+              requiresCompleteRegistration() ?
+                <Navigate to="/complete-registration" replace /> :
+              isAuthenticated ?
+                <AddPost /> : <Navigate to="/login" replace />}
             />
           </Routes>
         </main>
