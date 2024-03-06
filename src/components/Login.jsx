@@ -24,14 +24,13 @@ function Login() {
         setPassword('');
     };
 
-    async function handleSubmit(event) {
+    async function handleLogin(event) {
         event.preventDefault();
 
         setConfirmMessage('');
         setServerInternalError('');
         const formData = new FormData(event.target);
         const formDataObject = Object.fromEntries(formData.entries());
-        console.log(formDataObject);
         setEmail(formDataObject.email);
         setPassword(formDataObject.password);
 
@@ -72,7 +71,7 @@ function Login() {
     return (
         <div className='authentication'>
             <div className='login'>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleLogin}>
                     <h2>Login</h2>
                     {confirmMessage && <p>{confirmMessage}</p>}
                     {serverInternalError && <p>{serverInternalError}</p>}
