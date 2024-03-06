@@ -38,7 +38,7 @@ function MyProfile() {
             {confirmMessage && <p>{confirmMessage}</p>}
             <h2>{authUserInfo.username || 'username'}</h2>
             <p>{authUserInfo.name || 'name'}</p>
-            <img src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt="Profile Pic" />
+            <img src={`${serverUrl}${authUserInfo.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
             <p>{authUserInfo.bio || 'Nessuna bio inserita.'}</p>
             <button onClick={handleSettingsNavigation}>Modifica i tuoi dati</button>
 
