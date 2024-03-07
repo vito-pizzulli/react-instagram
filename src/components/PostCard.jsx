@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../style.css';
 
-function PostCard({username, location, image_url, description}) {
+function PostCard({image_url, username, slug}) {
     const { serverUrl } = useAuth();
 
     return (
         <div className='post-card'>
-            <img src={`${serverUrl}${image_url}`} alt="Post Pic" />
+            <Link to={`/${username}/${slug}`}><img src={`${serverUrl}${image_url}`} alt="Post Pic" /></Link>
         </div>
     )
 };
