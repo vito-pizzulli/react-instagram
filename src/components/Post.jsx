@@ -6,7 +6,7 @@ function Post({username, location, image_url, description}) {
 
     return (
         <div className='post'>
-            <h2>{username}</h2>
+            <a href={`/${username}`}>{username}</a>
             <p>{location}</p>
             <img src={`${serverUrl}${image_url}`} alt="Post Pic" />
             <p>{description}</p>
