@@ -12,10 +12,12 @@ function UserProfile() {
     const [postCards, setPostCards] = useState([]);
     const { username } = useParams();
     const [user, setUser] = useState(null);
-    const [postCardsLoading, setPostCardsLoading] = useState(false);
+    const [elementsLoading, setElementsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setServerInternalError();
+        setElementsLoading(true);
         const getUserByUsername = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/${username}`, {
@@ -23,19 +25,20 @@ function UserProfile() {
                     credentials: 'include',
                 });
                 const result = await response.json();
+
+                if(response.status === 404) {
+                    navigate('/not-found');
+                }
                 setUser(result[0]);
+                
             } catch (err) {
                 console.error(err);
                 setServerInternalError("Si è verificato un errore durante il recupero dei dati dell'utente.");
             }
         };
-        if(username) {
-            getUserByUsername();
-        } else {
-            navigate('/not-found');
-        }
 
-        setPostCardsLoading(true);
+        getUserByUsername();
+
         const getUserPosts = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/userPosts/${username}`, {
@@ -43,9 +46,16 @@ function UserProfile() {
                 credentials: 'include',
                 });
                 const result = await response.json();
-                setPostCardsLoading(false);
-                setPostCards(result);
+
+                if (response.status === 404) {
+                    setPostCards([])
+                } else {
+                    setPostCards(result);
+                }
+                setElementsLoading(false);
+
             } catch (err) {
+                setElementsLoading(false);
                 console.error(err);
                 setServerInternalError('Si è verificato un errore durante il recupero dei post.');
             }
@@ -62,20 +72,26 @@ function UserProfile() {
         <div className='user-profile'>
             {confirmMessage && <p>{confirmMessage}</p>}
             {serverInternalError && <p>{serverInternalError}</p>}
-            {user ? (
-                <>
-                    <h2>{user.username || 'username'}</h2>
-                    <p>{user.name || 'name'}</p>
-                    <img src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
-                    <p>{user.bio || 'Nessuna bio inserita.'}</p>
-                    {user.username === authUserInfo.username &&
-                        <button onClick={handleSettingsNavigation}>Modifica i tuoi dati</button>
-                    }
-                    {!postCardsLoading ? <PostCardsContainer postCards={postCards} /> : <Loading />}
-                </>
-            ) : (
-                <Loading />
-            )}
+            {!elementsLoading ? (
+                user ? (
+                    <>
+                        <h2>{user.username || 'username'}</h2>
+                        <p>{user.name || 'name'}</p>
+                        <img src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
+                        <p>{user.bio || 'Nessuna bio inserita.'}</p>
+                        {user.username === authUserInfo.username &&
+                            <button onClick={handleSettingsNavigation}>Modifica i tuoi dati</button>
+                        }
+                        {postCards.length > 0 ? (
+                            <PostCardsContainer postCards={postCards} />
+                        ) : (
+                            <p>Ancora nessun post.</p>
+                        )}
+                    </>
+                ) : (
+                    <p>Utente non trovato.</p>
+                )
+            ) : <Loading />}
         </div>
     );
 }
