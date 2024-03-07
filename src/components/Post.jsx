@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import moment from 'moment';
 import 'moment/locale/it';
@@ -15,7 +16,7 @@ function Post({username, location, image_url, description, created_at}) {
 
     return (
         <div className='post'>
-            <a href={`/${username}`}>{username}</a>
+            <Link to={`/${username}`}>{username}</Link>
             <p>{location}</p>
             <img src={`${serverUrl}${image_url}`} alt="Post Pic" />
             <p>{formattedDate}</p>
