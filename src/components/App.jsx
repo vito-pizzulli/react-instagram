@@ -5,8 +5,8 @@ import Home from './Home';
 import Login from './Login';
 import Registration from "./Registration";
 import CompleteRegistration from "./CompleteRegistration";
-import MyProfile from "./MyProfile";
-import MyProfileSettings from "./MyProfileSettings";
+import UserProfile from "./UserProfile";
+import AuthUserSettings from "./AuthUserSettings";
 import Loading from "./Loading";
 import AddPost from "./AddPost";
 import { useAuth } from '../contexts/AuthContext';
@@ -70,20 +70,20 @@ function App() {
               <CompleteRegistration />}
             />
 
-            <Route path="/my-profile" element={
+            <Route path="/:username" element={
               isLoading ? <Loading /> :
               requiresCompleteRegistration() ?
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
-                <MyProfile /> : <Navigate to="/login" replace />}
+                <UserProfile /> : <Navigate to="/login" replace />}
             />
 
-            <Route path="/my-profile/settings" element={
+            <Route path="/settings" element={
               isLoading ? <Loading /> :
               requiresCompleteRegistration() ?
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
-                <MyProfileSettings /> : <Navigate to="/login" replace />}
+                <AuthUserSettings /> : <Navigate to="/login" replace />}
             />
 
             <Route path="/add-post" element={

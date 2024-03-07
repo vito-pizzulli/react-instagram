@@ -42,8 +42,8 @@ const validationSchema = yup.object({
         .max(150, 'La bio non puó contenere piú di 150 caratteri.')
 });
 
-function MyProfileSettings() {
-    const { authUserInfo, serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage } = useAuth();
+function AuthUserSettings() {
+    const { authUserInfo, serverUrl, setAuthUserInfo, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
 
@@ -92,8 +92,7 @@ function MyProfileSettings() {
                 } else {
                     setConfirmMessage(data.message);
                     setAuthUserInfo(data.user);
-                    setAuthenticated(true);
-                    navigate('/my-profile');
+                    navigate(`/${data.user.username}`);
                 }
 
             } catch (err) {
@@ -112,7 +111,7 @@ function MyProfileSettings() {
     };
     
     return (
-        <div className='my-profile-settings'>
+        <div className='auth-user-settings'>
 
             <h2>Modifica i tuoi dati</h2>
             {serverInternalError && <p>{serverInternalError}</p>}
@@ -193,4 +192,4 @@ function MyProfileSettings() {
     );
 }
 
-export default MyProfileSettings;
+export default AuthUserSettings;
