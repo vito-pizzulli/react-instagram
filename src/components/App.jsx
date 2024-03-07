@@ -9,6 +9,8 @@ import UserProfile from "./UserProfile";
 import AuthUserSettings from "./AuthUserSettings";
 import Loading from "./Loading";
 import AddPost from "./AddPost";
+import ShowPost from "./ShowPost";
+import NotFound from "./NotFound";
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
 import '../style.css';
@@ -92,6 +94,18 @@ function App() {
                 <Navigate to="/complete-registration" replace /> :
               isAuthenticated ?
                 <AddPost /> : <Navigate to="/login" replace />}
+            />
+
+            <Route path="/:username/:slug" element={
+              isLoading ? <Loading /> :
+              requiresCompleteRegistration() ?
+                <Navigate to="/complete-registration" replace /> :
+              isAuthenticated ?
+                <ShowPost /> : <Navigate to="/login" replace />}
+            />
+
+            <Route path="/not-found" element={
+              <NotFound />} 
             />
           </Routes>
         </main>
