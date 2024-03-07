@@ -14,6 +14,7 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setServerInternalError();
         setPostsLoading(true);
         const getAllPosts = async () => {
             try {
@@ -22,9 +23,16 @@ function Home() {
                 credentials: 'include',
                 });
                 const result = await response.json();
+
+                if (response.status === 404) {
+                    setPosts([])
+                } else {
+                    setPosts(result);
+                }
                 setPostsLoading(false);
-                setPosts(result);
+                
             } catch (err) {
+                setPostsLoading(false);
                 console.error(err);
                 setServerInternalError('Si è verificato un errore durante il recupero dei post.');
             }
@@ -42,11 +50,13 @@ function Home() {
         <div className='homepage'>
             {confirmMessage && <p>{confirmMessage}</p>}
             <button onClick={handleAddPostNavigation}>Nuovo Post</button>
-            { !postsLoading ?
-                <PostsContainer
-                    posts={posts}
-                />
-            : <Loading />}
+            {!postsLoading ? (
+                posts.length > 0 ? (
+                    <PostsContainer posts={posts} />
+                ) : (
+                    <p>Ancora nessun post.</p>
+                )
+            ) : <Loading />}
         </div>
     );
 }
