@@ -38,7 +38,7 @@ function Header() {
         <header>
             <h1>Instagram</h1>
             {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/')}>Home</button> : null}
-            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/my-profile')}>Il mio profilo</button> : null}
+            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation(`/${authUserInfo.username}`)}>Il mio profilo</button> : null}
             {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
         </header>
     );
