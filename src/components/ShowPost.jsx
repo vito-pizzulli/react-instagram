@@ -7,7 +7,7 @@ import '../style.css';
 
 function ShowPost() {
     const { serverUrl, setConfirmMessage } = useAuth();
-    const { setServerInternalError } = useErrors();
+    const { serverInternalError, setServerInternalError } = useErrors();
     const [post, setPost] = useState({});
     const [postLoading, setPostLoading] = useState(false);
     const { username, slug } = useParams();
@@ -67,6 +67,7 @@ function ShowPost() {
 
     return (
         <div className='show-post'>
+            {serverInternalError && <p>{serverInternalError}</p>}
             { !postLoading ?
                 (Object.keys(post).length !== 0 ? (
                     <>  
