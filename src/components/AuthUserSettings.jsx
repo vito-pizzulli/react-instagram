@@ -43,7 +43,7 @@ const validationSchema = yup.object({
 });
 
 function AuthUserSettings() {
-    const { authUserInfo, serverUrl, setAuthUserInfo, setConfirmMessage } = useAuth();
+    const { authUserInfo, setAuthUserInfo, setAuthenticated, serverUrl, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
 
@@ -104,6 +104,27 @@ function AuthUserSettings() {
     function handleReset() {
         formik.resetForm();
     };
+
+    async function handleAccountDelete() {
+        const isConfirmed = window.confirm("Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata.");
+
+        if (isConfirmed) {
+            try {
+                const response = await fetch(`${serverUrl}api/deleteProfile`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                setConfirmMessage(data.message);
+                setAuthUserInfo({});
+                setAuthenticated(false);
+                navigate('/login');
+    
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
 
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
@@ -187,6 +208,7 @@ function AuthUserSettings() {
 
                 <button type='submit'>Salva</button>
                 <button type='reset' onClick={handleReset}>Resetta i campi</button>
+                <button type='button' onClick={handleAccountDelete}>Elimina Account</button>
             </form>
         </div>
     );
