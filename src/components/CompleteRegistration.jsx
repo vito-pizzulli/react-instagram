@@ -56,7 +56,7 @@ function CompleteRegistration() {
             
             try {
                 const response = await fetch(`${serverUrl}api/completeRegistration`, {
-                    method: 'POST',
+                    method: 'PUT',
                     body: formData,
                     credentials: 'include'
                 });

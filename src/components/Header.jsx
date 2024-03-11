@@ -17,7 +17,7 @@ function Header() {
         event.preventDefault();
 
         try {
-            const response = await fetch(`${serverUrl}api/logout`, { method: 'GET',
+            const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
             credentials: 'include'
             });
             const data = await response.json();

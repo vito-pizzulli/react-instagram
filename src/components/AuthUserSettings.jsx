@@ -72,7 +72,7 @@ function AuthUserSettings() {
             
             try {
                 const response = await fetch(`${serverUrl}api/updateProfile`, {
-                    method: 'POST',
+                    method: 'PATCH',
                     body: formData,
                     credentials: 'include'
                 });
