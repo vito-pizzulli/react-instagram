@@ -7,7 +7,7 @@ import PostCardsContainer from './PostCardsContainer';
 import '../style.css';
 
 function UserProfile() {
-    const { serverUrl, confirmMessage, authUserInfo } = useAuth();
+    const { serverUrl, confirmMessage, setConfirmMessage, setAuthenticated, authUserInfo } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const [postCards, setPostCards] = useState([]);
     const { username } = useParams();
@@ -67,6 +67,27 @@ function UserProfile() {
     function handleSettingsNavigation() {
         navigate('/settings');
     }
+
+    async function handleLogout(event) {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
+            credentials: 'include'
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
+                return;
+            }
+            setServerInternalError('');
+            setConfirmMessage(data.message);
+            setAuthenticated(false);
+            navigate('/login');
+        } catch (err) {
+            console.error(err);
+        }
+    }
     
     return (
         <div className='user-profile'>
@@ -80,7 +101,10 @@ function UserProfile() {
                         <img src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
                         <p>{user.bio || 'Nessuna bio inserita.'}</p>
                         {user.username === authUserInfo.username &&
-                            <button onClick={handleSettingsNavigation}>Modifica i tuoi dati</button>
+                            <>
+                                <button onClick={handleSettingsNavigation}>Modifica i tuoi dati</button>
+                                <button onClick={handleLogout}>Logout</button>
+                            </>
                         }
                         {postCards.length > 0 ? (
                             <PostCardsContainer postCards={postCards} />
