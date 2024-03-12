@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import moment from 'moment';
 import 'moment/locale/it';
-import '../style.css';
 
 function Post({username, location, image_url, description, created_at}) {
     const { serverUrl } = useAuth();

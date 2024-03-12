@@ -1,5 +1,4 @@
 import PostCard from './PostCard';
-import '../style.css';
 
 function PostCardsContainer({postCards}) {
 

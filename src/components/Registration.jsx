@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
-import '../style.css';
 
 const validationSchema = yup.object({
     email: yup.string()

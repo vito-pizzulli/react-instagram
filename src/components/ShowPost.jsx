@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
 import Loading from './Loading';
-import '../style.css';
 
 function ShowPost() {
     const { serverUrl, setConfirmMessage } = useAuth();

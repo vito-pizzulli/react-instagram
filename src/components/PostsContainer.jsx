@@ -1,5 +1,4 @@
 import Post from './Post';
-import '../style.css';
 
 function PostsContainer({posts}) {
 

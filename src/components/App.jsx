@@ -13,7 +13,6 @@ import ShowPost from "./ShowPost";
 import NotFound from "./NotFound";
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
-import '../style.css';
 
 function App() {
 

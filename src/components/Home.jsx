@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from "../contexts/ErrorsContext";
 import PostsContainer from './PostsContainer';
 import Loading from "./Loading";
-import '../style.css';
 
 function Home() {
     const { serverUrl, confirmMessage, setConfirmMessage } = useAuth();

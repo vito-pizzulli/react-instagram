@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
-import '../style.css';
 
 function SearchUsers() {
     const [searchWord, setSearchWord] = useState('');

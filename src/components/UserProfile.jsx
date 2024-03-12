@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
 import Loading from "./Loading";
 import PostCardsContainer from './PostCardsContainer';
-import '../style.css';
 
 function UserProfile() {
     const { serverUrl, confirmMessage, setConfirmMessage, setAuthenticated, authUserInfo } = useAuth();
