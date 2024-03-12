@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useErrors } from '../contexts/ErrorsContext';
 import SearchUsers from './SearchUsers';
-import '../style.css';
+import styles from '../assets/styles/Header.module.scss';
+import logo from '../assets/images/logo.png';
 
 function Header() {
-    const { isAuthenticated, setAuthenticated, authUserInfo, serverUrl, setConfirmMessage } = useAuth();
-    const { setServerInternalError } = useErrors();
+    const { isAuthenticated, authUserInfo, serverUrl, setConfirmMessage } = useAuth();
     const navigate = useNavigate();
 
     function handleNavigation(path) {
@@ -14,34 +13,29 @@ function Header() {
         navigate(path);
     };
 
-    async function handleLogout(event) {
-        event.preventDefault();
-
-        try {
-            const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
-            credentials: 'include'
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
-                return;
-            }
-            setServerInternalError('');
-            setConfirmMessage(data.message);
-            setAuthenticated(false);
-            navigate('/login');
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
     return (
-        <header>
-            <h1>Instagram</h1>
-            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/')}>Home</button> : null}
-            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation(`/${authUserInfo.username}`)}>Il mio profilo</button> : null}
-            {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
-            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <SearchUsers /> : null}
+        <header className='d-flex align-items-center'>
+            <div className="container-fluid w-md-75 h-100">
+                <div className="row align-items-center h-100">
+                    <div className="col-4 d-flex justify-content-center align-items-center h-100">
+                        <img className='w-100 mh-100 object-fit-contain' role='button' src={logo} alt='Logo' onClick={() => handleNavigation('/')} />
+                    </div>
+                    {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? 
+                        <div className='col-4'>
+                            <SearchUsers />
+                        </div> 
+                    : null}
+                    {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ?
+                        <div className={'col-4 d-flex justify-content-center align-items-center h-100'} role='button' onClick={() => handleNavigation(`/${authUserInfo.username}`)}>
+                            <img className='h-75 object-fit-contain rounded-circle' src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt='Profile Pic' />
+                            <div className='d-flex flex-column justify-content-center align-content-center p-1'>
+                                <p>{authUserInfo.username}</p>
+                                <p className={styles.name}>{authUserInfo.name}</p>
+                            </div>
+                        </div>
+                    : null}
+                </div>
+            </div>
         </header>
     );
 }

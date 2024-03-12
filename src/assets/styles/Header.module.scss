@@ -1,0 +1,13 @@
+header {
+    height: 8vh;
+    border-bottom: 1px solid grey;
+
+    p {
+        margin: .2rem;
+        font-weight: 600;
+
+        &.name {
+            color: grey;
+        }
+    }
+}
