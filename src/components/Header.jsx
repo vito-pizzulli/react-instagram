@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import SearchUsers from './SearchUsers';
 import '../style.css';
 
 function Header() {
@@ -40,6 +41,7 @@ function Header() {
             {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation('/')}>Home</button> : null}
             {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <button onClick={() => handleNavigation(`/${authUserInfo.username}`)}>Il mio profilo</button> : null}
             {isAuthenticated && <button onClick={handleLogout}>Logout</button>}
+            {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? <SearchUsers /> : null}
         </header>
     );
 }
