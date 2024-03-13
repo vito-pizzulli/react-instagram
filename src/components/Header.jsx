@@ -14,24 +14,22 @@ function Header() {
     };
 
     return (
-        <header className='d-flex align-items-center'>
-            <div className="container-fluid w-md-75 h-100">
-                <div className="row align-items-center h-100">
-                    <div className="col-4 d-flex justify-content-center align-items-center h-100">
-                        <img className='w-100 mh-100 object-fit-contain' role='button' src={logo} alt='Logo' onClick={() => handleNavigation('/')} />
+        <header className='bg-light position-fixed w-100'>
+            <div className="container-fluid p-2">
+                <div className="row align-items-center">
+                    <div className="col-4 d-flex justify-content-center align-items-center">
+                        <img className='w-100 object-fit-contain' role='button' src={logo} alt='Logo' onClick={() => handleNavigation('/')} />
                     </div>
                     {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? 
-                        <div className='col-6'>
+                        <div className='col-5'>
                             <SearchUsers />
                         </div> 
                     : null}
                     {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ?
-                        <div className={'col-2 d-flex justify-content-center align-items-center h-100'} role='button' onClick={() => handleNavigation(`/${authUserInfo.username}`)}>
-                            <div className="row h-100">
-                                <div className="col-12 col-sm-4 d-flex justify-content-center align-items-center h-100">
-                                    <div className={`${styles.profilePicContainer}`}>
-                                        <img className='object-fit-cover rounded-circle w-100 h-100' src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt='Profile Pic' />
-                                    </div>
+                        <div className={'col-3 d-flex justify-content-center align-items-center'} role='button' onClick={() => handleNavigation(`/${authUserInfo.username}`)}>
+                            <div className="row">
+                                <div className="col-12 col-sm-4 d-flex justify-content-center align-items-center">
+                                    <img className='object-fit-cover rounded-circle' src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt='Profile Pic' />
                                 </div>
                                 <div className="d-none d-sm-flex col-8">
                                     <div className='d-flex flex-column justify-content-center align-content-center p-1'>

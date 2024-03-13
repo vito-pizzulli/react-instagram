@@ -1,10 +1,9 @@
 header {
-    height: 8vh;
     border-bottom: 1px solid lightgrey;
 
-    div.profilePicContainer {
-        aspect-ratio: 1;
-        height: 65%;
+    img {
+        width: 70px;
+        height: 70px;
     }
 
     p {

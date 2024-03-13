@@ -90,20 +90,18 @@ function SearchUsers() {
                 )}
 
                 {foundUsers.length > 0 && (
-                    <ul className={`${styles.foundUsers} position-absolute list-group overflow-scroll w-100`} ref={dropdownMenu}>
+                    <ul className={`${styles.foundUsers} position-absolute list-group w-100`} ref={dropdownMenu}>
                         {foundUsers.map(user => (
                             <li className='list-group-item' key={user.id} onClick={() => handleUserClick(user.username)}>
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="row">
-                                            <div className="col-3 d-flex justify-content-center align-items-center">
-                                                <div className={`${styles.profilePicContainer} h-75`}>
-                                                    <img className='object-fit-cover rounded-circle w-100 h-100' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
-                                                </div>
+                                            <div className="col-5 col-md-3 d-flex justify-content-start align-items-center">
+                                                <img className='object-fit-cover rounded-circle' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
                                             </div>
-                                            <div className="col-9 d-flex flex-column justify-content-center overflow-hidden">
-                                                <p>{user.username}</p>
-                                                <p className={styles.name}>{user.name}</p>
+                                            <div className="col-7 col-md-9 d-flex flex-column justify-content-center align-items-start overflow-hidden">
+                                                <p className='overflow-hidden'>{user.username}</p>
+                                                <p className={`${styles.name} overflow-hidden`}>{user.name}</p>
                                             </div>
                                         </div>
                                     </div>
