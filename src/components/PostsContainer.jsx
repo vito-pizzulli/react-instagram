@@ -3,7 +3,7 @@ import Post from './Post';
 function PostsContainer({posts}) {
 
     return (
-        <div className='posts-container'>
+        <div>
             {posts.map((post) => (
                 <Post key={post.id} {...post} />
             ))}

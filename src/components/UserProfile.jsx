@@ -89,7 +89,7 @@ function UserProfile() {
     }
     
     return (
-        <div className='user-profile'>
+        <div className='userProfile'>
             {confirmMessage && <p>{confirmMessage}</p>}
             {serverInternalError && <p>{serverInternalError}</p>}
             {!elementsLoading ? (

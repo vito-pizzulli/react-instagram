@@ -65,7 +65,7 @@ function ShowPost() {
     }
 
     return (
-        <div className='show-post'>
+        <div className='showPost'>
             {serverInternalError && <p>{serverInternalError}</p>}
             { !postLoading ?
                 (Object.keys(post).length !== 0 ? (

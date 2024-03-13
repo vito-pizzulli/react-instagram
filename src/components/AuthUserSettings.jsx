@@ -131,7 +131,7 @@ function AuthUserSettings() {
     };
     
     return (
-        <div className='auth-user-settings'>
+        <div className='authUserSettings'>
 
             <h2>Modifica i tuoi dati</h2>
             {serverInternalError && <p>{serverInternalError}</p>}

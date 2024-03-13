@@ -14,7 +14,7 @@ const validationSchema = yup.object({
     
     description: yup.string()
         .nullable()
-        .max(255, 'L\'indirizzo email non può contenere più di 255 caratteri.'),
+        .max(255, 'La bio non può contenere più di 255 caratteri.'),
 
     location: yup.string()
         .nullable()
@@ -86,7 +86,7 @@ function AddPost() {
     };
 
     return (
-        <div className='add-post'>
+        <div className='addPost'>
             <h2>Pubblica un nuovo post</h2>
             {serverInternalError && <p>{serverInternalError}</p>}
             <ul>
