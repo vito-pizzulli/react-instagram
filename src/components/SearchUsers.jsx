@@ -75,9 +75,9 @@ function SearchUsers() {
     return (
         <div className='row justify-content-center position-relative'>
             <div className="col-12 p-0">
-                <i className="fa-solid fa-magnifying-glass position-absolute"></i>
+                <i className={`${styles.searchIcon} fa-solid fa-magnifying-glass position-absolute`}></i>
                 <input
-                    className='w-100 rounded'
+                    className={`${styles.searchUsers} w-100 rounded`}
                     type="text"
                     placeholder='Cerca'
                     value={searchWord}
