@@ -46,9 +46,9 @@ function Home() {
     };
     
     return (
-        <div className='homepage'>
+        <div className='homepage container-fluid w-75'>
             {confirmMessage && <p>{confirmMessage}</p>}
-            <button onClick={handleAddPostNavigation}>Nuovo Post</button>
+            <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
             {!postsLoading ? (
                 posts.length > 0 ? (
                     <PostsContainer posts={posts} />

@@ -1,0 +1,29 @@
+img.profilePic {
+    width: 70px;
+    height: 70px;
+}
+
+img.postImage {
+    width: 800px;
+    max-width: 100%;
+}
+
+i.postIcon {
+    font-size: 3rem;
+    margin-right: 2rem;
+    color: black;
+    transition: all .1s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: grey;
+    }
+}
+
+p.location {
+    cursor: default;
+}
+
+p.description {
+    overflow-wrap: break-word;
+}
