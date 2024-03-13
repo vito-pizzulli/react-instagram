@@ -75,6 +75,7 @@ function SearchUsers() {
     return (
         <div className='row justify-content-center position-relative'>
             <div className="col-12 p-0">
+                <i className="fa-solid fa-magnifying-glass position-absolute"></i>
                 <input
                     className='w-100 rounded'
                     type="text"
