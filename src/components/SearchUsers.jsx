@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import styles from '../assets/styles/SearchUsers.module.scss';
 
 function SearchUsers() {
     const [searchWord, setSearchWord] = useState('');
@@ -9,6 +10,7 @@ function SearchUsers() {
     const { serverUrl } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const navigate = useNavigate();
+    const dropdownMenu = useRef(null);
 
     const debounce = (func, delay) => {
         let inDebounce;
@@ -32,6 +34,7 @@ function SearchUsers() {
                         setServerInternalError(data.message)
                     } else {
                         setFoundUsers(data);
+                        setServerInternalError('');
                     }
 
                 } catch (err) {
@@ -45,7 +48,20 @@ function SearchUsers() {
 
         const debouncedSearch = debounce(doSearch, 500);
         debouncedSearch();
-    }, [searchWord, serverUrl, setServerInternalError]);
+
+        const handleClickOutside = (event) => {
+            if (dropdownMenu.current && !dropdownMenu.current.contains(event.target)) {
+                setFoundUsers([]);
+                setServerInternalError('');
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [searchWord, serverUrl, setServerInternalError, dropdownMenu]);
 
     const handleSearchChange = (e) => {
         setSearchWord(e.target.value);
@@ -57,21 +73,38 @@ function SearchUsers() {
     };
 
     return (
-        <div className='search-users'>
-        {serverInternalError && <p>{serverInternalError}</p>}
+        <div className='row justify-content-center position-relative'>
             <input
+                className='col-12 rounded'
                 type="text"
                 placeholder='Cerca'
                 value={searchWord}
                 onChange={handleSearchChange}
             />
+
+            {foundUsers.length === 0 && serverInternalError && (
+                <ul className={`position-absolute list-group overflow-scroll`} ref={dropdownMenu}>
+                    {serverInternalError !== '' && <li className='list-group-item'>{serverInternalError}</li>}
+                </ul>
+            )}
+
             {foundUsers.length > 0 && (
-                <ul>
+                <ul className={`${styles.foundUsers} position-absolute list-group overflow-scroll`} ref={dropdownMenu}>
                     {foundUsers.map(user => (
-                        <li key={user.id} onClick={() => handleUserClick(user.username)}>
-                            <p>{user.username}</p>
-                            <img src={`${serverUrl}${user.profile_pic_url}`} alt="Profile Pic" />
-                            <p>{user.name}</p>
+                        <li className='list-group-item' key={user.id} onClick={() => handleUserClick(user.username)}>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="row">
+                                        <div className="col-2 d-flex justify-content-center align-items-center">
+                                            <img className='rounded-circle object-fit-cover' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
+                                        </div>
+                                        <div className="col-10 d-flex flex-column justify-content-center">
+                                            <p>{user.username}</p>
+                                            <p className={styles.name}>{user.name}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     ))}
                 </ul>

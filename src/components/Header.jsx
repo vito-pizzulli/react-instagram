@@ -14,7 +14,7 @@ function Header() {
     };
 
     return (
-        <header className='d-flex align-items-center overflow-hidden'>
+        <header className='d-flex align-items-center'>
             <div className="container-fluid w-md-75 h-100">
                 <div className="row align-items-center h-100">
                     <div className="col-4 d-flex justify-content-center align-items-center h-100">

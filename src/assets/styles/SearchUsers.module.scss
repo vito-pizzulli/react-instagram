@@ -1,0 +1,39 @@
+input {
+    border: 1px solid lightgrey;
+}
+
+ul {
+    top: 120%;
+    border: 1px solid lightgrey;
+    padding: 0;
+    cursor: default;
+
+    li {
+        img {
+            width: 70px;
+            height: 70px;
+        }
+    
+        p {
+            margin: .2rem;
+            font-weight: 600;
+    
+            &.name {
+                color: grey;
+            }
+        }
+    }
+
+    &.foundUsers {
+        cursor: pointer;
+        padding: 0;
+
+        li {
+            transition: all .3s ease;
+
+            &:hover {
+                background-color: rgb(234, 234, 234);
+            }
+        }
+    }
+}
