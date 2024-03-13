@@ -21,15 +21,15 @@ function Header() {
                         <img className='w-100 mh-100 object-fit-contain' role='button' src={logo} alt='Logo' onClick={() => handleNavigation('/')} />
                     </div>
                     {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ? 
-                        <div className='col-4'>
+                        <div className='col-6'>
                             <SearchUsers />
                         </div> 
                     : null}
                     {isAuthenticated && (authUserInfo.username && authUserInfo.name && authUserInfo.profile_pic_url) ?
-                        <div className={'col-4 d-flex justify-content-center align-items-center h-100'} role='button' onClick={() => handleNavigation(`/${authUserInfo.username}`)}>
+                        <div className={'col-2 d-flex justify-content-center align-items-center h-100'} role='button' onClick={() => handleNavigation(`/${authUserInfo.username}`)}>
                             <div className="row h-100">
                                 <div className="col-12 col-sm-4 d-flex justify-content-center align-items-center h-100">
-                                    <div className={`${styles.profilePicContainer} h-75`}>
+                                    <div className={`${styles.profilePicContainer}`}>
                                         <img className='object-fit-cover rounded-circle w-100 h-100' src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt='Profile Pic' />
                                     </div>
                                 </div>

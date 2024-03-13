@@ -74,41 +74,45 @@ function SearchUsers() {
 
     return (
         <div className='row justify-content-center position-relative'>
-            <input
-                className='col-12 rounded'
-                type="text"
-                placeholder='Cerca'
-                value={searchWord}
-                onChange={handleSearchChange}
-            />
+            <div className="col-12 p-0">
+                <input
+                    className='w-100 rounded'
+                    type="text"
+                    placeholder='Cerca'
+                    value={searchWord}
+                    onChange={handleSearchChange}
+                />
 
-            {foundUsers.length === 0 && serverInternalError && (
-                <ul className={`position-absolute list-group overflow-scroll`} ref={dropdownMenu}>
-                    {serverInternalError !== '' && <li className='list-group-item'>{serverInternalError}</li>}
-                </ul>
-            )}
+                {foundUsers.length === 0 && serverInternalError && (
+                    <ul className={`position-absolute list-group w-100`} ref={dropdownMenu}>
+                        {serverInternalError !== '' && <li className='list-group-item'>{serverInternalError}</li>}
+                    </ul>
+                )}
 
-            {foundUsers.length > 0 && (
-                <ul className={`${styles.foundUsers} position-absolute list-group overflow-scroll`} ref={dropdownMenu}>
-                    {foundUsers.map(user => (
-                        <li className='list-group-item' key={user.id} onClick={() => handleUserClick(user.username)}>
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="row">
-                                        <div className="col-2 d-flex justify-content-center align-items-center">
-                                            <img className='rounded-circle object-fit-cover' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
-                                        </div>
-                                        <div className="col-10 d-flex flex-column justify-content-center">
-                                            <p>{user.username}</p>
-                                            <p className={styles.name}>{user.name}</p>
+                {foundUsers.length > 0 && (
+                    <ul className={`${styles.foundUsers} position-absolute list-group overflow-scroll w-100`} ref={dropdownMenu}>
+                        {foundUsers.map(user => (
+                            <li className='list-group-item' key={user.id} onClick={() => handleUserClick(user.username)}>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-3 d-flex justify-content-center align-items-center">
+                                                <div className={`${styles.profilePicContainer} h-75`}>
+                                                    <img className='object-fit-cover rounded-circle w-100 h-100' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
+                                                </div>
+                                            </div>
+                                            <div className="col-9 d-flex flex-column justify-content-center overflow-hidden">
+                                                <p>{user.username}</p>
+                                                <p className={styles.name}>{user.name}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }
