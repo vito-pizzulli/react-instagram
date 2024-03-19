@@ -1,0 +1,26 @@
+div.userProfile {
+    img.profilePic {
+        width: 100%;
+        max-width: 150px;
+        max-height: 150px;
+        aspect-ratio: 1;
+
+        @media (min-width: 1400px) {
+            & {
+                width: 100%;
+                max-width: 300px;
+                max-height: 300px;
+            }
+        }
+    }
+
+    button {
+        background-color: #efefef;
+        border-radius: 15px;
+        padding: .5rem 1.5rem;
+    }
+
+    p.bio {
+        overflow-wrap: break-word;
+    }
+}
