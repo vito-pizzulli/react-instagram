@@ -1,0 +1,10 @@
+div.postCard {
+
+    img.postCardImage{
+        aspect-ratio: 1;
+    }
+
+    &:hover {
+        filter: brightness(50%);
+    }
+}
