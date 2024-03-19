@@ -9,3 +9,9 @@ div.userProfile {
     padding: 1rem;
     padding-top: 7rem;
 }
+
+@media (min-width: 768px) {
+    div.container-fluid {
+        width: 75%;
+    }
+}

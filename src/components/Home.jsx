@@ -7,7 +7,7 @@ import Loading from "./Loading";
 
 function Home() {
     const { serverUrl, confirmMessage, setConfirmMessage } = useAuth();
-    const { setServerInternalError } = useErrors();
+    const { serverInternalError, setServerInternalError } = useErrors();
     const [posts, setPosts] = useState([]);
     const [postsLoading, setPostsLoading] = useState(false);
     const navigate = useNavigate();
@@ -46,8 +46,9 @@ function Home() {
     };
     
     return (
-        <div className='homepage container-fluid w-75'>
-            {confirmMessage && <p>{confirmMessage}</p>}
+        <div className={`homepage container-fluid`}>
+            {confirmMessage && <p className="alert alert-success">{confirmMessage}</p>}
+            {(serverInternalError && serverInternalError !== 'Nessun utente trovato.') && <p className="alert alert-danger">{serverInternalError}</p>}
             <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
             {!postsLoading ? (
                 posts.length > 0 ? (

@@ -7,7 +7,7 @@ import styles from '../assets/styles/SearchUsers.module.scss';
 function SearchUsers() {
     const [searchWord, setSearchWord] = useState('');
     const [foundUsers, setFoundUsers] = useState([]);
-    const { serverUrl } = useAuth();
+    const { serverUrl, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const navigate = useNavigate();
     const dropdownMenu = useRef(null);
@@ -69,11 +69,12 @@ function SearchUsers() {
 
     const handleUserClick = (username) => {
         setSearchWord('');
+        setConfirmMessage('');
         navigate(`/${username}`);
     };
 
     return (
-        <div className='row justify-content-center position-relative'>
+        <div className={`${styles.searchUsers} row justify-content-center position-relative`}>
             <div className="col-12 p-0">
                 <i className={`${styles.searchIcon} fa-solid fa-magnifying-glass position-absolute`}></i>
                 <input
@@ -97,10 +98,10 @@ function SearchUsers() {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="row">
-                                            <div className="col-5 col-md-3 d-flex justify-content-start align-items-center">
+                                            <div className="col-5 col-md-2 d-flex justify-content-start align-items-center">
                                                 <img className='object-fit-cover rounded-circle' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
                                             </div>
-                                            <div className="col-7 col-md-9 d-flex flex-column justify-content-center align-items-start overflow-hidden">
+                                            <div className="col-7 col-md-10 d-flex flex-column justify-content-center align-items-start overflow-hidden">
                                                 <p className='overflow-hidden'>{user.username}</p>
                                                 <p className={`${styles.name} overflow-hidden`}>{user.name}</p>
                                             </div>

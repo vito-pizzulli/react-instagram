@@ -1,48 +1,50 @@
-i.searchIcon {
-    top: 30%;
-    color: grey;
-    left: 2%;
-}
-
-input.searchUsers {
-    border: 1px solid lightgrey;
-    padding: .3rem 2.5rem;
-
-    &:focus {
-        outline: 1px solid lightgrey;
+div.searchUsers {
+    i.searchIcon {
+        top: 30%;
+        color: grey;
+        left: 2%;
     }
-}
-
-ul {
-    top: 120%;
-    padding: 0;
-    cursor: default;
-
-    li {
-        p {
-            margin: .2rem;
-            font-weight: 600;
-            white-space: nowrap;
     
-            &.name {
-                color: grey;
-            }
+    input.searchUsers {
+        border: 1px solid lightgrey;
+        padding: .3rem 2.5rem;
+    
+        &:focus {
+            outline: 1px solid lightgrey;
         }
     }
-
-    &.foundUsers {
-        cursor: pointer;
-
+    
+    ul {
+        top: 120%;
+        padding: 0;
+        cursor: default;
+    
         li {
-            transition: all .3s ease;
-
-            img {
-                width: 60px;
-                height: 60px;
+            p {
+                margin: .2rem;
+                font-weight: 600;
+                white-space: nowrap;
+        
+                &.name {
+                    color: grey;
+                }
             }
-
-            &:hover {
-                background-color: rgb(234, 234, 234);
+        }
+    
+        &.foundUsers {
+            cursor: pointer;
+    
+            li {
+                transition: all .3s ease;
+    
+                img {
+                    width: 60px;
+                    height: 60px;
+                }
+    
+                &:hover {
+                    background-color: rgb(234, 234, 234);
+                }
             }
         }
     }

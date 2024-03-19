@@ -15,13 +15,13 @@ function Post({username, profile_pic_url, location, image_url, description, crea
     const formattedDate = formatDate(created_at);
 
     return (
-        <div className='post mb-5'>
-            <div className="row mb-2">
-                <div className="col-3 col-md-1 d-flex justify-content-end">
+        <div className={`${styles.post} mb-3`}>
+            <div className="row mb-3 align-items-center">
+                <div className="col-3 col-md-1 d-flex justify-content-center">
                     <Link className='text-decoration-none text-black fw-semibold' to={`/${username}`}><img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${profile_pic_url}`} alt="" /></Link>
                 </div>
-                <div className="col-9 col-md-11">
-                    <Link className='text-decoration-none text-black fw-semibold' to={`/${username}`}><p className='fs-5 mb-1'>{username} • <span className='fw-normal'>{formattedDate}</span></p></Link>
+                <div className="col-9 col-md-11 p-0">
+                    <Link className='text-decoration-none text-black fw-semibold' to={`/${username}`}><p className='mb-1'>{username} • <span className='fw-normal'>{formattedDate}</span></p></Link>
                     <p className={styles.location}>{location}</p>
                 </div>
             </div>
@@ -43,7 +43,11 @@ function Post({username, profile_pic_url, location, image_url, description, crea
                     <p className={styles.description}><span className='fw-semibold'>{username}</span> {description}</p>
                 </div>
             </div>
-            <hr />
+            <div className="row">
+                <div className="col-12 col-xxl-6">
+                    <hr />
+                </div>
+            </div>
         </div>
     )
 };

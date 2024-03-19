@@ -163,7 +163,7 @@ function AuthUserSettings() {
                 />
                 {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
 
-                <label htmlFor="name">Bio</label>
+                <label htmlFor="bio">Bio</label>
                 <textarea
                     name="bio"
                     onChange={formik.handleChange}
