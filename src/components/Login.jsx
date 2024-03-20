@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
-import styles from '../assets/styles/Login.module.scss';
+import styles from '../assets/styles/Authentication.module.scss';
 import logo from '../assets/images/logo.png';
 import loginImage from '../assets/images/login-image.png';
 import googlePlay from '../assets/images/google-play.png';
@@ -77,13 +77,13 @@ function Login() {
         <div className={`${styles.authentication} authentication container-fluid d-flex justify-content-center align-items-center`}>
             <div className="row">
                 <div className="d-none d-lg-flex col-6 justify-content-center align-items-start align-items-lg-center">
-                    <img className='w-75' src={loginImage} alt="Image of a phone showing Instagram." />
+                    <img className='w-75' src={loginImage} alt="Phone showing Instagram" />
                 </div>
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center">
                     <div className='loginArea d-flex flex-column align-items-center border border-secondary-subtle p-5 mb-3'>
                         <form className='d-flex flex-column justify-content-center align-items-center' onSubmit={handleLogin}>
-                            <img className='w-50 mb-4' src={logo} alt="Image of the Instagram logo." />
-                            {confirmMessage && <p>{confirmMessage}</p>}
+                            <img className='w-50 mb-4' src={logo} alt="the Instagram logo." />
+                            {confirmMessage && <p className='alert alert-success'>{confirmMessage}</p>}
                             {serverInternalError && <p className='alert alert-warning w-100'>{serverInternalError}</p>}
                             <input
                                 className='w-100 rounded-1'
@@ -101,7 +101,7 @@ function Login() {
                                 placeholder='Password'
                                 onChange={event => setPassword(event.target.value)}
                             />
-                            <button className='w-100 text-white border-0 rounded-3 mb-3 fw-semibold' type='submit'>Accedi</button>
+                            <button className='w-100 mb-3 btn btn-primary fw-semibold border-0' type='submit'>Accedi</button>
                         </form>
                         <div className="row w-100 mb-4">
                             <div className="col-5">
@@ -116,7 +116,7 @@ function Login() {
                         </div>
                         <span className='fw-semibold' role='button' onClick={handleGoogleLogin}><i className="fa-brands fa-google me-2"></i> Accedi con Google</span>
                     </div>
-                    <div className='registrationArea border border-secondary-subtle p-4 text-center mb-3'>
+                    <div className='registrationArea border border-secondary-subtle p-4 text-center mb-4'>
                         <span>Non hai un account? </span>
                         <span className={`${styles.registrationLink} fw-semibold`} role='button' onClick={handleRegistrationNavigation}>Iscriviti</span>
                     </div>

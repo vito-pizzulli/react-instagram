@@ -132,7 +132,10 @@ function UserProfile() {
                 {postCards.length > 0 ? (
                     <PostCardsContainer postCards={postCards} />
                 ) : (
-                    <p>Ancora nessun post.</p>
+                    <>
+                        <i className="fa-solid fa-camera fs-3 border border-black rounded-circle w-auto m-auto p-3"></i>
+                        <p className='fs-3 text-center fw-bold'>Ancora nessun post</p>
+                    </>
                 )}
             </div>
         </div>
