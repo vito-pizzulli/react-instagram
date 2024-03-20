@@ -3,6 +3,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import styles from '../assets/styles/Authentication.module.scss';
+import logo from '../assets/images/logo.png';
+import googlePlay from '../assets/images/google-play.png';
+import appStore from '../assets/images/app-store.png';
 
 const validationSchema = yup.object({
     username: yup.string()
@@ -25,7 +29,7 @@ const validationSchema = yup.object({
 });
 
 function CompleteRegistration() {
-    const { serverUrl, authUserInfo, setAuthUserInfo, setConfirmMessage } = useAuth();
+    const { serverUrl, authUserInfo, setAuthenticated, setAuthUserInfo, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
     const navigate = useNavigate();
 
@@ -93,48 +97,117 @@ function CompleteRegistration() {
         formik.setFieldValue("profile_pic_url", file);
     };
 
+    async function handleLogout(event) {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
+            credentials: 'include'
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
+                return;
+            }
+            setServerInternalError('');
+            setConfirmMessage(data.message);
+            setAuthenticated(false);
+            navigate('/login');
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     return (
-        <div className='completeRegistration'>
-            <form onSubmit={formik.handleSubmit}>
-                <h2>Completa il tuo profilo</h2>
-                {serverInternalError && <p>{serverInternalError}</p>}
-                <ul>
-                    {serverValidationErrors.map((serverValidationError, index) => (
-                        <li key={index}>{serverValidationError}</li>
-                    ))}
-                </ul>
-                
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    name="username"
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.username && formik.errors.username ? <p>{formik.errors.username}</p> : null}
+        <div className={`${styles.completeRegistration} completeRegistration container-fluid`}>
+            <div className="row m-auto">
+                <div className="col-12 col-xl-5 m-auto border border-secondary-subtle p-5 text-center mb-3">
+                    <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
+                        <img className='w-50 m-auto mb-4' src={logo} alt="Instagram Logo" />
+                        <span>Ciao, <strong>{authUserInfo.email}</strong>!</span>
+                        <span>Hai effettuato l'accesso con Google.</span>
+                        <span className='mb-4'>Adesso completa il tuo profilo!</span>
+                        {serverInternalError && <p className='alert alert-warning'>{serverInternalError}</p>}
+                        <ul>
+                            {serverValidationErrors.map((serverValidationError, index) => (
+                                <li className='alert alert-warning' key={index}>{serverValidationError}</li>
+                            ))}
+                        </ul>
+                                
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Nome e cognome</span>
+                            <input
+                                className='w-100'
+                                type="text"
+                                name="name"
+                                onChange={formik.handleChange}
+                                value={formik.values.name}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
 
-                <label htmlFor="name">Nome</label>
-                <input
-                    type="text"
-                    name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Nome utente</span>
+                            <input
+                                className='w-100'
+                                type="text"
+                                name="username"
+                                onChange={formik.handleChange}
+                                value={formik.values.username}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.username && formik.errors.username ? <p className='alert alert-warning'>{formik.errors.username}</p> : null}
+                        
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Immagine del profilo</span>
+                            <input
+                                className='w-100'
+                                type="file"
+                                name='profile_pic_url'
+                                onChange={handleFileChange}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p className='alert alert-warning'>{formik.errors.profile_pic_url}</p> : null}
 
-                <label htmlFor="profile_pic_url">Immagine del profilo</label>
-                <input
-                    type="file"
-                    name='profile_pic_url'
-                    onChange={handleFileChange}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p>{formik.errors.profile_pic_url}</p> : null}
-                <button type='submit'>Completa profilo</button>
-                <button type='reset' onClick={handleReset}>Resetta i campi</button>
-            </form>
+                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Iscriviti</button>
+                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
+                    </form>
+                </div>
+            </div>
+
+            <div className="row m-auto mb-4">
+                <div className='logoutArea border border-secondary-subtle p-4 text-center col-12 col-xl-5 m-auto'>
+                    <div className="row">
+                        <div className="col-12">
+                            <span>Vuoi accedere o registrarti con la tua e-mail? </span>
+                            <span className={`${styles.loginButton} fw-semibold`} role='button' onClick={handleLogout}>Logout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className={styles.appDownload}>
+                <div className="row text-center mb-3">
+                    <div className="col-12">
+                        <span>Scarica l'applicazione.</span>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-6 d-flex justify-content-end">
+                    <a href="https://play.google.com/store/apps/details?id=com.instagram.android&hl=it&gl=US" target="_blank" rel="noopener noreferrer">
+                        <img src={googlePlay} alt="Download from Google Play Logo" />
+                    </a>
+                    </div>
+                    <div className="col-6 d-flex justify-content-start">
+                        <a href="https://apps.apple.com/it/app/instagram/id389801252" target="_blank" rel="noopener noreferrer">
+                            <img src={appStore} alt="Download from App Store Logo." />
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
