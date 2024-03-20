@@ -98,10 +98,10 @@ function SearchUsers() {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="row">
-                                            <div className="col-5 col-md-2 d-flex justify-content-start align-items-center">
+                                            <div className="col-5 col-lg-2 d-flex justify-content-start align-items-center">
                                                 <img className='object-fit-cover rounded-circle' src={`${serverUrl}${user.profile_pic_url}`} alt='Profile Pic' />
                                             </div>
-                                            <div className="col-7 col-md-10 d-flex flex-column justify-content-center align-items-start overflow-hidden">
+                                            <div className="col-7 col-lg-10 d-flex flex-column justify-content-center align-items-start overflow-hidden">
                                                 <p className='overflow-hidden'>{user.username}</p>
                                                 <p className={`${styles.name} overflow-hidden`}>{user.name}</p>
                                             </div>

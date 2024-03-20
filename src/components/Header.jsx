@@ -1,15 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useErrors } from '../contexts/ErrorsContext';
 import SearchUsers from './SearchUsers';
 import styles from '../assets/styles/Header.module.scss';
 import logo from '../assets/images/logo.png';
 
 function Header() {
     const { isAuthenticated, authUserInfo, serverUrl, setConfirmMessage } = useAuth();
+    const { setServerInternalError } = useErrors();
     const navigate = useNavigate();
 
     function handleNavigation(path) {
         setConfirmMessage('');
+        setServerInternalError('');
         navigate(path);
     };
 
