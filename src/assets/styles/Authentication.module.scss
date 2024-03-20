@@ -1,5 +1,6 @@
 div.authentication,
-div.registration {
+div.registration,
+div.completeRegistration {
 
     img {
         max-width: 500px;
@@ -45,10 +46,9 @@ div.registration {
     }
 }
 
-div.registration {
+div.registration,
+div.completeRegistration {
     input {
         padding: .5rem 1rem .5rem 11rem;
     }
-
-
 }

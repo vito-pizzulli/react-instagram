@@ -83,7 +83,7 @@ function Login() {
                     <div className='loginArea d-flex flex-column align-items-center border border-secondary-subtle p-5 mb-3'>
                         <form className='d-flex flex-column justify-content-center align-items-center' onSubmit={handleLogin}>
                             <img className='w-50 mb-4' src={logo} alt="the Instagram logo." />
-                            {confirmMessage && <p className='alert alert-success'>{confirmMessage}</p>}
+                            {confirmMessage && <p className='alert alert-success w-100'>{confirmMessage}</p>}
                             {serverInternalError && <p className='alert alert-warning w-100'>{serverInternalError}</p>}
                             <input
                                 className='w-100 rounded-1'
