@@ -1,5 +1,5 @@
-div.authentication {
-    padding: 15rem 2rem;
+div.authentication,
+div.registration {
 
     img {
         max-width: 500px;
@@ -18,14 +18,15 @@ div.authentication {
 
     button {
         background-color: #4cb5f9;
-        padding: .3rem 1rem;
+        padding: .4rem 1rem;
     }
 
     span.separator {
         color: grey;
     }
 
-    span.registrationLink {
+    span.registrationLink,
+    span.loginButton {
         color: #0095f6;
     }
 
@@ -35,4 +36,19 @@ div.authentication {
             height: 50px;
         }
     }
+
+    span.placeholder {
+        position: absolute;
+        color: grey;
+        top: 15%;
+        left: 2%;
+    }
+}
+
+div.registration {
+    input {
+        padding: .5rem 1rem .5rem 11rem;
+    }
+
+
 }
