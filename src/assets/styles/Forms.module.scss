@@ -81,6 +81,10 @@ div.addPost {
         resize: none;
         padding: .8rem;
 
+        &:focus {
+            outline: 1px solid black;
+        }
+
         &::placeholder {
             color: grey;
             font-weight: 100;
