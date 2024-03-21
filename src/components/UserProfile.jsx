@@ -117,7 +117,7 @@ function UserProfile() {
                                         <div className="row">
                                             <div className="col-12 col-xl-6">
                                                 <p className='fw-semibold'>{user.name || 'name'}</p>
-                                                <p className={`${styles.bio}`}>{user.bio || 'Nessuna bio inserita.'}</p>
+                                                <p className={`${styles.bio}`}>{user.bio || ''}</p>
                                             </div>
                                         </div>
                                     </div>
