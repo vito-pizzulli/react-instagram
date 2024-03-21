@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import styles from '../assets/styles/Forms.module.scss';
 
 const validationSchema = yup.object({
     email: yup.string()
@@ -50,6 +51,7 @@ function AuthUserSettings() {
         initialValues: {
             email: authUserInfo.email || '',
             password: '',
+            password_confirm: '',
             username: authUserInfo.username || '',
             name: authUserInfo.name || '',
             profile_pic_url: null,
@@ -67,6 +69,11 @@ function AuthUserSettings() {
 
             if (values.profile_pic_url) {
                 formData.append("profile_pic_url", values.profile_pic_url);
+            }
+
+            if (values.password && values.password !== values.password_confirm) {
+                formik.setFieldError('password_confirm', 'Le password non corrispondono.');
+                return;
             }
             
             try {
@@ -131,84 +138,121 @@ function AuthUserSettings() {
     };
     
     return (
-        <div className='authUserSettings'>
+        <div className={`${styles.authUserSettings} authUserSettings container-fluid`}>
+            <div className="row m-auto">
+                <div className='col-12 col-xl-5 m-auto border border-secondary-subtle p-5 text-center'>
+                    <h2 className='mb-4'>Modifica profilo</h2>
+                    {serverInternalError && <p className='alert alert-warning'>{serverInternalError}</p>}
+                    <ul>
+                        {serverValidationErrors.map((serverValidationError, index) => (
+                            <li className='alert alert-warning' key={index}>{serverValidationError}</li>
+                        ))}
+                    </ul>
 
-            <h2>Modifica i tuoi dati</h2>
-            {serverInternalError && <p>{serverInternalError}</p>}
-            <ul>
-                {serverValidationErrors.map((serverValidationError, index) => (
-                    <li key={index}>{serverValidationError}</li>
-                ))}
-            </ul>
+                    <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
 
-            <form onSubmit={formik.handleSubmit}>
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Nome e cognome</span>
+                            <input
+                                placeholder='Es: Mario Rossi'
+                                className='w-100'
+                                type="text"
+                                name="name"
+                                onChange={formik.handleChange}
+                                value={formik.values.name}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
 
-                <label htmlFor="username">Username</label>
-                <input
-                    type="text"
-                    name="username"
-                    onChange={formik.handleChange}
-                    value={formik.values.username}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.username && formik.errors.username ? <p>{formik.errors.username}</p> : null}
-
-                <label htmlFor="name">Nome</label>
-                <input
-                    type="text"
-                    name="name"
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
-
-                <label htmlFor="bio">Bio</label>
-                <textarea
-                    name="bio"
-                    onChange={formik.handleChange}
-                    value={formik.values.bio}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.bio && formik.errors.bio ? <p>{formik.errors.bio}</p> : null}
-
-                <label htmlFor="profile_pic_url">Immagine del profilo</label>
-                <input
-                    type="file"
-                    name='profile_pic_url'
-                    onChange={handleFileChange}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p>{formik.errors.profile_pic_url}</p> : null}
-
-                <label htmlFor="email">Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    onBlur={formik.handleBlur}
-                />
-                {formik.touched.email && formik.errors.email ? <p>{formik.errors.email}</p> : null}
-
-                {authUserInfo.password !== 'google' && (
-                    <>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            name="password"
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Nome utente</span>
+                            <input
+                                placeholder='Es: mario.rossi.94'
+                                className='w-100'
+                                type="text"
+                                name="username"
+                                onChange={formik.handleChange}
+                                value={formik.values.username}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.username && formik.errors.username ? <p className='alert alert-warning'>{formik.errors.username}</p> : null}
+                        
+                        <textarea
+                            placeholder='Raccontaci qualcosa di te'
+                            className='w-100'
+                            name="bio"
                             onChange={formik.handleChange}
-                            value={formik.values.password}
+                            value={formik.values.bio}
                             onBlur={formik.handleBlur}
                         />
-                        {formik.touched.password && formik.errors.password ? <p>{formik.errors.password}</p> : null}
-                    </>
-                )}
+                        {formik.touched.bio && formik.errors.bio ? <p className='alert alert-warning'>{formik.errors.bio}</p> : null}
+                        
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Immagine del profilo</span>
+                            <input
+                                className='w-100'
+                                type="file"
+                                name='profile_pic_url'
+                                onChange={handleFileChange}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p className='alert alert-warning'>{formik.errors.profile_pic_url}</p> : null}
+                        
+                        <div className="position-relative">
+                            <span className={styles.placeholder}>Indirizzo e-mail</span>
+                            <input
+                                placeholder='Es: mario.rossi.94@gmail.com'
+                                className='w-100'
+                                type="email"
+                                name="email"
+                                onChange={formik.handleChange}
+                                value={formik.values.email}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        {formik.touched.email && formik.errors.email ? <p className='alert alert-warning'>{formik.errors.email}</p> : null}
 
-                <button type='submit'>Salva</button>
-                <button type='reset' onClick={handleReset}>Resetta i campi</button>
-                <button type='button' onClick={handleAccountDelete}>Elimina Account</button>
-            </form>
+                        {authUserInfo.password !== 'google' && (
+                            <>
+                                <div className="position-relative">
+                                    <span className={styles.placeholder}>Password</span>
+                                    <input
+                                        placeholder='Inserisci la nuova password'
+                                        className='w-100'
+                                        type="password"
+                                        name="password"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.password}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+                                {formik.touched.password && formik.errors.password ? <p className='alert alert-warning'>{formik.errors.password}</p> : null}
+
+                                <div className="position-relative">
+                                    <span className={styles.placeholder}>Conferma password</span>
+                                    <input
+                                        placeholder='Ridigita la nuova password'
+                                        className='w-100'
+                                        type="password"
+                                        name="password_confirm"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.password_confirm}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+                                {formik.touched.password_confirm && formik.errors.password_confirm ? <p className='alert alert-warning'>{formik.errors.password_confirm}</p> : null}
+                            </>
+                        )}
+
+                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Invia</button>
+                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
+                        <button className='btn btn-primary fw-semibold border-0' type='button' onClick={handleAccountDelete}>Elimina Account</button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }
