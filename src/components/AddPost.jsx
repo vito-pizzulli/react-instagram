@@ -100,7 +100,7 @@ function AddPost() {
                 <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
                     
                     <div className="position-relative">
-                        <span className={styles.placeholder}>Immagine del post</span>
+                        <label htmlFor='image_url'>Immagine del post</label>
                         <input
                             className='w-100'
                             type="file"
@@ -122,7 +122,7 @@ function AddPost() {
                     {formik.touched.description && formik.errors.description ? <p className='alert alert-warning'>{formik.errors.description}</p> : null}
                     
                     <div className="position-relative">
-                        <span className={styles.placeholder}>Luogo</span>
+                        <label htmlFor='location'>Luogo</label>
                         <input
                             placeholder='Es: Roma'
                             className='w-100'

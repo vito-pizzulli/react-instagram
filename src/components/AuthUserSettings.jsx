@@ -152,7 +152,7 @@ function AuthUserSettings() {
                     <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
 
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Nome e cognome</span>
+                            <label htmlFor='name'>Nome e cognome</label>
                             <input
                                 placeholder='Es: Mario Rossi'
                                 className='w-100'
@@ -166,7 +166,7 @@ function AuthUserSettings() {
                         {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
 
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Nome utente</span>
+                            <label htmlFor='username'>Nome utente</label>
                             <input
                                 placeholder='Es: mario.rossi.94'
                                 className='w-100'
@@ -190,7 +190,7 @@ function AuthUserSettings() {
                         {formik.touched.bio && formik.errors.bio ? <p className='alert alert-warning'>{formik.errors.bio}</p> : null}
                         
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Immagine del profilo</span>
+                            <label htmlFor='profile_pic_url'>Immagine del profilo</label>
                             <input
                                 className='w-100'
                                 type="file"
@@ -202,7 +202,7 @@ function AuthUserSettings() {
                         {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p className='alert alert-warning'>{formik.errors.profile_pic_url}</p> : null}
                         
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Indirizzo e-mail</span>
+                            <label htmlFor='email'>Indirizzo e-mail</label>
                             <input
                                 placeholder='Es: mario.rossi.94@gmail.com'
                                 className='w-100'
@@ -218,7 +218,7 @@ function AuthUserSettings() {
                         {authUserInfo.password !== 'google' && (
                             <>
                                 <div className="position-relative">
-                                    <span className={styles.placeholder}>Password</span>
+                                    <label htmlFor='password'>Password</label>
                                     <input
                                         placeholder='Inserisci la nuova password'
                                         className='w-100'
@@ -232,7 +232,7 @@ function AuthUserSettings() {
                                 {formik.touched.password && formik.errors.password ? <p className='alert alert-warning'>{formik.errors.password}</p> : null}
 
                                 <div className="position-relative">
-                                    <span className={styles.placeholder}>Conferma password</span>
+                                    <label htmlFor='password_confirm'>Conferma password</label>
                                     <input
                                         placeholder='Ridigita la nuova password'
                                         className='w-100'

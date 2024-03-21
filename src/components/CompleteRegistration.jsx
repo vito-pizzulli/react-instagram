@@ -135,7 +135,7 @@ function CompleteRegistration() {
                         </ul>
                                 
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Nome e cognome</span>
+                            <label htmlFor='name'>Nome e cognome</label>
                             <input
                                 placeholder='Es: Mario Rossi'
                                 className='w-100'
@@ -149,7 +149,7 @@ function CompleteRegistration() {
                         {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
 
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Nome utente</span>
+                            <label htmlFor='username'>Nome utente</label>
                             <input
                                 placeholder='Es: mario.rossi.94'
                                 className='w-100'
@@ -163,7 +163,7 @@ function CompleteRegistration() {
                         {formik.touched.username && formik.errors.username ? <p className='alert alert-warning'>{formik.errors.username}</p> : null}
                         
                         <div className="position-relative">
-                            <span className={styles.placeholder}>Immagine del profilo</span>
+                            <label htmlFor='profile_pic_url'>Immagine del profilo</label>
                             <input
                                 className='w-100'
                                 type="file"
