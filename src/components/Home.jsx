@@ -9,12 +9,11 @@ function Home() {
     const { serverUrl, confirmMessage, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const [posts, setPosts] = useState([]);
-    const [postsLoading, setPostsLoading] = useState(false);
+    const [postsLoading, setPostsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         setServerInternalError();
-        setPostsLoading(true);
         const getAllPosts = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/posts`, {

@@ -20,7 +20,6 @@ function App() {
   const { setServerInternalError } = useErrors();
 
   useEffect(() => {
-    setIsLoading(true);
     const getStatus = async () => {
       try {
         const response = await fetch(`${serverUrl}api/status`, {

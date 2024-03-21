@@ -12,14 +12,13 @@ function UserProfile() {
     const [postCards, setPostCards] = useState([]);
     const { username } = useParams();
     const [user, setUser] = useState(null);
-    const [elementsLoading, setElementsLoading] = useState(false);
+    const [elementsLoading, setElementsLoading] = useState(true);
     const [numberOfPosts, setNumberOfPosts] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
         setNumberOfPosts(0);
         setServerInternalError();
-        setElementsLoading(true);
         const getUserByUsername = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/${username}`, {
