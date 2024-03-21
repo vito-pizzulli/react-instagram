@@ -95,49 +95,50 @@ function UserProfile() {
             {(serverInternalError && serverInternalError !== 'Nessun utente trovato.') && <p>{serverInternalError}</p>}
             {!elementsLoading ? (
                 user ? (
-                    <div className="row p-5 mb-5">
-                        <div className="col-5 d-flex justify-content-center">
-                            <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
-                        </div>
-                        <div className="col-7">
-                            <div className="row mb-5">
-                                <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
-                                    <h2 className='mb-3 me-md-4 fs-3'>{user.username || 'username'}</h2>
-                                    {user.username === authUserInfo.username &&
-                                        <>
-                                            <button className='mb-2 mb-md-0 me-md-4 btn btn-light fw-semibold' onClick={handleSettingsNavigation}>Modifica profilo</button>
-                                            <button className='btn btn-light fw-semibold' onClick={handleLogout}>Logout</button>
-                                        </>
-                                    }
-                                </div>
+                    <>
+                        <div className="row p-5 mb-5">
+                            <div className="col-5 d-flex justify-content-center">
+                                <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
                             </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <div className="row">
-                                        <div className="col-12 col-xl-6">
-                                            <p className='fw-semibold'>{user.name || 'name'}</p>
-                                            <p className={`${styles.bio}`}>{user.bio || 'Nessuna bio inserita.'}</p>
+                            <div className="col-7">
+                                <div className="row mb-5">
+                                    <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
+                                        <h2 className='mb-3 me-md-4 fs-3'>{user.username || 'username'}</h2>
+                                        {user.username === authUserInfo.username &&
+                                            <>
+                                                <button className='mb-2 mb-md-0 me-md-4 btn btn-light fw-semibold' onClick={handleSettingsNavigation}>Modifica profilo</button>
+                                                <button className='btn btn-light fw-semibold' onClick={handleLogout}>Logout</button>
+                                            </>
+                                        }
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="row">
+                                            <div className="col-12 col-xl-6">
+                                                <p className='fw-semibold'>{user.name || 'name'}</p>
+                                                <p className={`${styles.bio}`}>{user.bio || 'Nessuna bio inserita.'}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div className="row">
+                            {postCards.length > 0 ? (
+                                <PostCardsContainer postCards={postCards} />
+                            ) : (
+                                <>
+                                    <i className="fa-solid fa-camera fs-3 border border-black rounded-circle w-auto m-auto p-3"></i>
+                                    <p className='fs-3 text-center fw-bold'>Ancora nessun post</p>
+                                </>
+                            )}
+                        </div>
+                    </>
                 ) : (
                     <p>Utente non trovato.</p>
                 )
             ) : <Loading />}
-            <div className="row">
-                
-                {postCards.length > 0 ? (
-                    <PostCardsContainer postCards={postCards} />
-                ) : (
-                    <>
-                        <i className="fa-solid fa-camera fs-3 border border-black rounded-circle w-auto m-auto p-3"></i>
-                        <p className='fs-3 text-center fw-bold'>Ancora nessun post</p>
-                    </>
-                )}
-            </div>
         </div>
     );
 }

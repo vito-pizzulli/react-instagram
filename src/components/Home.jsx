@@ -49,10 +49,12 @@ function Home() {
         <div className={`homepage container-fluid`}>
             {confirmMessage && <p className="alert alert-success">{confirmMessage}</p>}
             {(serverInternalError && serverInternalError !== 'Nessun utente trovato.') && <p className="alert alert-danger">{serverInternalError}</p>}
-            <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
             {!postsLoading ? (
                 posts.length > 0 ? (
-                    <PostsContainer posts={posts} />
+                    <>
+                        <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
+                        <PostsContainer posts={posts} />
+                    </>
                 ) : (
                     <p>Ancora nessun post.</p>
                 )
