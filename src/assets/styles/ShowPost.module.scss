@@ -1,0 +1,38 @@
+div.showPost {
+    img.profilePic {
+        width: 40px;
+        height: 40px;
+    }
+
+    img.postPic {
+        width: 1400px;
+        max-width: 100%;
+    }
+
+    p.description,
+    span.location {
+        overflow-wrap: break-word;
+    }
+
+    span.location,
+    span.date {
+        font-size: .8rem;
+    }
+
+    span.date {
+        color: grey;
+    }
+
+    button {
+        padding: .4rem 1rem;
+
+        &.delete {
+            color: red;
+            background-color: white;
+
+            &:hover {
+                background-color: rgb(255, 236, 236);
+            }
+        }
+    }
+}
