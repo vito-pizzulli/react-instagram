@@ -97,10 +97,10 @@ function UserProfile() {
                 user ? (
                     <>
                         <div className="row p-5 mb-5">
-                            <div className="col-5 d-flex justify-content-center">
-                                <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
+                            <div className="col-12 col-md-5 d-flex justify-content-center align-items-center">
+                                <img className={`${styles.profilePic} object-fit-cover rounded-circle mb-5`} src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
                             </div>
-                            <div className="col-7">
+                            <div className="col-12 col-md-7">
                                 <div className="row mb-5">
                                     <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
                                         <h2 className='mb-3 me-md-4 fs-3'>{user.username || 'username'}</h2>

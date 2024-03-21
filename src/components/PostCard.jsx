@@ -6,7 +6,7 @@ function PostCard({image_url, username, slug}) {
     const { serverUrl } = useAuth();
 
     return (
-        <div className={`${styles.postCard} col-3 ratio-1x1 mb-4`}>
+        <div className={`${styles.postCard} col-6 col-md-4 col-lg-3 ratio-1x1 mb-4`}>
             <Link to={`/${username}/${slug}`}><img className={`${styles.postCardImage} w-100 object-fit-cover`} src={`${serverUrl}${image_url}`} alt="Post Pic" /></Link>
         </div>
     )
