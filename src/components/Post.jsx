@@ -17,10 +17,10 @@ function Post({username, profile_pic_url, location, image_url, description, crea
     return (
         <div className={`${styles.post} mb-3`}>
             <div className="row mb-3 align-items-center">
-                <div className="col-3 col-md-1 d-flex justify-content-center">
+                <div className="col-3 col-xl-1 d-flex justify-content-center">
                     <Link className='text-decoration-none text-black fw-semibold' to={`/${username}`}><img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${profile_pic_url}`} alt="" /></Link>
                 </div>
-                <div className="col-9 col-md-11 p-0">
+                <div className="col-9 col-xl-11 p-0">
                     <Link className='text-decoration-none text-black fw-semibold' to={`/${username}`}><p className='mb-1'>{username} • <span className='fw-normal'>{formattedDate}</span></p></Link>
                     <p className={styles.location}>{location}</p>
                 </div>
