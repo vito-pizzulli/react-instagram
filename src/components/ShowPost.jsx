@@ -87,7 +87,7 @@ function ShowPost() {
 
                             <div className="row border border-secondary-subtle p-3 m-0">
                                 <div className="col-2">
-                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt="Profile Pic" />
+                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
                                 </div>
                                 <div className="col-10 d-flex flex-column">
                                     <Link className='text-decoration-none text-black fw-semibold' to={`/${post.username}`}>{post.username}</Link>
@@ -97,14 +97,16 @@ function ShowPost() {
                             
                             <div className="row border border-secondary-subtle p-3 m-0 h-100">
                                 <div className="col-2">
-                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${authUserInfo.profile_pic_url}`} alt="Profile Pic" />
+                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
                                 </div>
                                 <div className="col-10 d-flex flex-column">
                                     <p className={`${styles.description} d-inline`}>
                                         <Link className='text-decoration-none text-black fw-semibold' to={`/${post.username}`}>{post.username}</Link> {post.description}
                                     </p>
                                     <span className={`${styles.date} mb-3`}>{formattedDate}</span>
-                                    <button className={`${styles.delete} btn fw-semibold`} type='button' onClick={handlePostDelete}>Elimina</button>
+                                    {post.username === authUserInfo.username &&
+                                        <button className={`${styles.delete} btn fw-semibold`} type='button' onClick={handlePostDelete}>Elimina</button>
+                                    }
                                 </div>
                             </div>
                         </div>
