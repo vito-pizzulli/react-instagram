@@ -136,7 +136,7 @@ function UserProfile() {
                         </div>
                     </>
                 ) : (
-                    <p>Utente non trovato.</p>
+                    <p className='alert alert-danger'>Utente non trovato.</p>
                 )
             ) : <Loading />}
         </div>

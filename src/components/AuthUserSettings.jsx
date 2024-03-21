@@ -249,7 +249,7 @@ function AuthUserSettings() {
 
                         <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Invia</button>
                         <button className='mb-3 btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
-                        <button className='btn btn-primary fw-semibold border-0' type='button' onClick={handleAccountDelete}>Elimina Account</button>
+                        <button className={`${styles.delete} btn fw-semibold`} type='button' onClick={handleAccountDelete}>Cancella iscrizione</button>
                     </form>
                 </div>
             </div>

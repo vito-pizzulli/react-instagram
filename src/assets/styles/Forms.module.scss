@@ -28,7 +28,18 @@ div.addPost {
     button {
         background-color: #4cb5f9;
         padding: .4rem 1rem;
+
+        &.delete {
+            color: red;
+            background-color: white;
+
+            &:hover {
+                background-color: rgb(255, 236, 236);
+            }
+        }
     }
+
+
 
     span.separator {
         color: grey;

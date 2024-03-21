@@ -56,7 +56,7 @@ function Home() {
                         <PostsContainer posts={posts} />
                     </>
                 ) : (
-                    <p>Ancora nessun post.</p>
+                    <p className="alert alert-info">Ancora nessun post.</p>
                 )
             ) : <Loading />}
         </div>
