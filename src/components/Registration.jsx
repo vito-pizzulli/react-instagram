@@ -151,6 +151,7 @@ function Registration() {
                         <div className='position-relative'>
                             <span className={styles.placeholder}>Indirizzo e-mail</span>
                             <input
+                                placeholder='Es: mario.rossi.94@gmail.com'
                                 className='w-100'
                                 type="email"
                                 name="email"
@@ -164,6 +165,7 @@ function Registration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Nome e cognome</span>
                             <input
+                                placeholder='Es: Mario Rossi'
                                 className='w-100'
                                 type="text"
                                 name="name"
@@ -177,6 +179,7 @@ function Registration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Nome utente</span>
                             <input
+                                placeholder='Es: mario.rossi.94'
                                 className='w-100'
                                 type="text"
                                 name="username"
@@ -202,6 +205,7 @@ function Registration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Password</span>
                             <input
+                                placeholder='Crea una password'
                                 className='w-100'
                                 type="password"
                                 name="password"
@@ -215,6 +219,7 @@ function Registration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Conferma password</span>
                             <input
+                                placeholder='Ridigita la password'
                                 className='w-100'
                                 type="password"
                                 name="password_confirm"

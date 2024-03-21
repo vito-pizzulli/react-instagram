@@ -137,6 +137,7 @@ function CompleteRegistration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Nome e cognome</span>
                             <input
+                                placeholder='Es: Mario Rossi'
                                 className='w-100'
                                 type="text"
                                 name="name"
@@ -150,6 +151,7 @@ function CompleteRegistration() {
                         <div className="position-relative">
                             <span className={styles.placeholder}>Nome utente</span>
                             <input
+                                placeholder='Es: mario.rossi.94'
                                 className='w-100'
                                 type="text"
                                 name="username"
