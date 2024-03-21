@@ -10,10 +10,10 @@ import appStore from '../assets/images/app-store.png';
 
 const validationSchema = yup.object({
     username: yup.string()
-        .required('Il campo username non può essere vuoto.')
-        .min(3, 'L\'username deve contenere tra 3 e 30 caratteri.')
-        .max(30, 'L\'username deve contenere tra 3 e 30 caratteri.')
-        .matches(/^[a-zA-Z0-9_.]+$/, 'L\'username può contenere solo lettere, numeri, underscore e punti.'),
+        .required('Il campo nome utente non può essere vuoto.')
+        .min(3, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
+        .max(30, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
+        .matches(/^[a-zA-Z0-9_.]+$/, 'Il nome utente può contenere solo lettere, numeri, underscore e punti.'),
     
     name: yup.string()
         .required('Il campo nome non può essere vuoto.')

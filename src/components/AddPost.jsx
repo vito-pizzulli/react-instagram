@@ -18,7 +18,7 @@ const validationSchema = yup.object({
 
     location: yup.string()
         .nullable()
-        .max(255, 'L\'username deve contenere tra 3 e 30 caratteri.')
+        .max(255, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
 });
 
 function AddPost() {

@@ -10,9 +10,9 @@ import appStore from '../assets/images/app-store.png';
 
 const validationSchema = yup.object({
     email: yup.string()
-        .required('Il campo email non può essere vuoto.')
-        .email('Inserisci un indirizzo email valido.')
-        .max(255, 'L\'indirizzo email non può contenere più di 255 caratteri.'),
+        .required('Il campo e-mail non può essere vuoto.')
+        .email('Inserisci un indirizzo e-mail valido.')
+        .max(255, 'L\'indirizzo e-mail non può contenere più di 255 caratteri.'),
     
     password: yup.string()
         .required('Il campo password non può essere vuoto.')
@@ -27,10 +27,10 @@ const validationSchema = yup.object({
         .oneOf([yup.ref('password'), null], 'Le password non corrispondono.'),
     
     username: yup.string()
-        .required('Il campo username non può essere vuoto.')
-        .min(3, 'L\'username deve contenere tra 3 e 30 caratteri.')
-        .max(30, 'L\'username deve contenere tra 3 e 30 caratteri.')
-        .matches(/^[a-zA-Z0-9_.]+$/, 'L\'username può contenere solo lettere, numeri, underscore e punti.'),
+        .required('Il campo nome utente non può essere vuoto.')
+        .min(3, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
+        .max(30, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
+        .matches(/^[a-zA-Z0-9_.]+$/, 'Il nome utente può contenere solo lettere, numeri, underscore e punti.'),
     
     name: yup.string()
         .required('Il campo nome non può essere vuoto.')

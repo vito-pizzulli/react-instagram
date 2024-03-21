@@ -40,7 +40,7 @@ function Login() {
         setPassword(formDataObject.password);
 
         if (!formDataObject.email.trim() || !formDataObject.password.trim()) {
-            setServerInternalError("Email e password sono campi obbligatori.");
+            setServerInternalError("E-mail e password sono campi obbligatori.");
             return;
         }
 
@@ -82,7 +82,7 @@ function Login() {
                 <div className="col-12 col-lg-6 d-flex flex-column justify-content-center">
                     <div className='loginArea d-flex flex-column align-items-center border border-secondary-subtle p-5 mb-3'>
                         <form className='d-flex flex-column justify-content-center align-items-center' onSubmit={handleLogin}>
-                            <img className='w-50 mb-4' src={logo} alt="the Instagram logo." />
+                            <img className='w-50 mb-4' src={logo} alt="Instagram Logo" />
                             {confirmMessage && <p className='alert alert-success w-100'>{confirmMessage}</p>}
                             {serverInternalError && <p className='alert alert-warning w-100'>{serverInternalError}</p>}
                             <input
