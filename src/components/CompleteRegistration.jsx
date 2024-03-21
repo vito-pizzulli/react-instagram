@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
-import styles from '../assets/styles/Authentication.module.scss';
+import styles from '../assets/styles/Forms.module.scss';
 import logo from '../assets/images/logo.png';
 import googlePlay from '../assets/images/google-play.png';
 import appStore from '../assets/images/app-store.png';

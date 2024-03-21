@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
-import styles from '../assets/styles/Authentication.module.scss';
+import styles from '../assets/styles/Forms.module.scss';
 import logo from '../assets/images/logo.png';
 import loginImage from '../assets/images/login-image.png';
 import googlePlay from '../assets/images/google-play.png';

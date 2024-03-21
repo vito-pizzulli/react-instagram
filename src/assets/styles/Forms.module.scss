@@ -1,6 +1,7 @@
 div.authentication,
 div.registration,
-div.completeRegistration {
+div.completeRegistration,
+div.authUserSettings {
 
     img {
         max-width: 500px;
@@ -14,6 +15,11 @@ div.completeRegistration {
 
         &:focus {
             outline: 1px solid black;
+        }
+
+        &::placeholder {
+            color: grey;
+            font-weight: 100;
         }
     }
 
@@ -47,8 +53,22 @@ div.completeRegistration {
 }
 
 div.registration,
-div.completeRegistration {
+div.completeRegistration,
+div.authUserSettings {
     input {
         padding: .5rem 1rem .5rem 11rem;
+    }
+}
+
+div.authUserSettings {
+    textarea {
+        height: 150px;
+        resize: none;
+        padding: .8rem;
+
+        &::placeholder {
+            color: grey;
+            font-weight: 100;
+        }
     }
 }
