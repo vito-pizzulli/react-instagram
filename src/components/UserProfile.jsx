@@ -13,10 +13,11 @@ function UserProfile() {
     const { username } = useParams();
     const [user, setUser] = useState(null);
     const [elementsLoading, setElementsLoading] = useState(false);
-    const [numberOfPosts, setNumberOfPosts] = useState();
+    const [numberOfPosts, setNumberOfPosts] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setNumberOfPosts(0);
         setServerInternalError();
         setElementsLoading(true);
         const getUserByUsername = async () => {
