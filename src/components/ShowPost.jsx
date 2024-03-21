@@ -87,7 +87,9 @@ function ShowPost() {
 
                             <div className="row border border-secondary-subtle p-3 m-0">
                                 <div className="col-2">
-                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
+                                    <Link to={`/${post.username}`}>
+                                        <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
+                                    </Link>
                                 </div>
                                 <div className="col-10 d-flex flex-column">
                                     <Link className='text-decoration-none text-black fw-semibold' to={`/${post.username}`}>{post.username}</Link>
@@ -96,8 +98,15 @@ function ShowPost() {
                             </div>
                             
                             <div className="row border border-secondary-subtle p-3 m-0 h-100">
-                                <div className="col-2">
-                                    <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
+                                <div className="col-2 d-flex flex-column justify-content-between z-1 pb-3">
+                                    <Link to={`/${post.username}`}>
+                                        <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
+                                    </Link>
+                                    <div className="col-12 d-flex">
+                                        <i className={`${styles.postIcon} fa-regular fa-heart`}></i>
+                                        <i className={`${styles.postIcon} fa-regular fa-comment`}></i>
+                                        <i className={`${styles.postIcon} fa-regular fa-bookmark`}></i>
+                                    </div>
                                 </div>
                                 <div className="col-10 d-flex flex-column">
                                     <p className={`${styles.description} d-inline`}>

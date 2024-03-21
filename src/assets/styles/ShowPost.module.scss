@@ -9,6 +9,17 @@ div.showPost {
         max-width: 100%;
     }
 
+    i.postIcon {
+        font-size: 2rem;
+        margin-right: 2rem;
+        color: black;
+        cursor: pointer;
+    
+        &:hover {
+            color: grey;
+        }
+    }
+
     p.description,
     span.location {
         overflow-wrap: break-word;
