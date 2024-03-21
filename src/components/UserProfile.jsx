@@ -105,7 +105,7 @@ function UserProfile() {
                             <div className="col-12 col-md-7">
                                 <div className="row mb-3">
                                     <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
-                                        <h2 className='mb-3 me-md-4 fs-3'>{user.username || 'username'}</h2>
+                                        <h2 className='mb-3 me-md-4 fs-4'>{user.username || 'username'}</h2>
                                         {user.username === authUserInfo.username &&
                                             <>
                                                 <button className='mb-2 mb-md-0 me-md-4 btn btn-light fw-semibold' onClick={handleSettingsNavigation}>Modifica profilo</button>
