@@ -28,7 +28,7 @@ function Post({username, profile_pic_url, location, image_url, description, crea
             
             <div className="row mb-3">
                 <div className="col-12">
-                    <img className={`${styles.postImage}`} src={`${serverUrl}${image_url}`} alt="Post Pic" />
+                    <img className={`${styles.postImage} object-fit-contain`} src={`${serverUrl}${image_url}`} alt="Post Pic" />
                 </div>
             </div>
             <div className="row mb-4">
