@@ -80,8 +80,8 @@ function ShowPost() {
                 (Object.keys(post).length !== 0 ? (
 
                     <div className="row">
-                        <div className="col-12 col-xxl-9 border border-secondary-subtle">
-                            <img className={`${styles.postPic}`} src={`${serverUrl}${post.image_url}`} alt="Post Pic" />
+                        <div className="col-12 col-xxl-9 border border-secondary-subtle d-flex justify-content-center">
+                            <img className={`${styles.postPic} object-fit-contain`} src={`${serverUrl}${post.image_url}`} alt="Post Pic" />
                         </div>
                         <div className="col-12 col-xxl-3 p-0 d-flex flex-column">
 
@@ -98,7 +98,7 @@ function ShowPost() {
                             </div>
                             
                             <div className="row border border-secondary-subtle p-3 m-0 h-100 d-flex flex-column justify-content-between">
-                                
+
                                 <div className="row">
                                     <div className="col-2 d-flex flex-column justify-content-between z-1 pb-3">
                                         <Link to={`/${post.username}`}>
