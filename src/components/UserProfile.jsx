@@ -13,6 +13,7 @@ function UserProfile() {
     const { username } = useParams();
     const [user, setUser] = useState(null);
     const [elementsLoading, setElementsLoading] = useState(false);
+    const [numberOfPosts, setNumberOfPosts] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,6 +52,7 @@ function UserProfile() {
                     setPostCards([])
                 } else {
                     setPostCards(result);
+                    setNumberOfPosts(result.length);
                 }
                 setElementsLoading(false);
 
@@ -101,7 +103,7 @@ function UserProfile() {
                                 <img className={`${styles.profilePic} object-fit-cover rounded-circle mb-5`} src={`${serverUrl}${user.profile_pic_url}?timestamp=${new Date().getTime()}`} alt="Profile Pic" />
                             </div>
                             <div className="col-12 col-md-7">
-                                <div className="row mb-5">
+                                <div className="row mb-3">
                                     <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
                                         <h2 className='mb-3 me-md-4 fs-3'>{user.username || 'username'}</h2>
                                         {user.username === authUserInfo.username &&
@@ -110,6 +112,13 @@ function UserProfile() {
                                                 <button className='btn btn-light fw-semibold' onClick={handleLogout}>Logout</button>
                                             </>
                                         }
+                                    </div>
+                                </div>
+                                <div className="row mb-3">
+                                    <div className="col-4 d-flex justify-content-between">
+                                        <span><strong className='fs-5 fw-semibold'>{numberOfPosts}</strong> post</span>
+                                        <span><strong className='fs-5 fw-semibold'>0</strong> follower</span>
+                                        <span><strong className='fs-5 fw-semibold'>0</strong> seguiti</span>
                                     </div>
                                 </div>
                                 <div className="row">
