@@ -141,7 +141,7 @@ function AuthUserSettings() {
         <div className={`${styles.authUserSettings} authUserSettings container-fluid`}>
             <div className="row m-auto">
                 <div className='col-12 col-xl-5 m-auto border border-secondary-subtle p-5 text-center'>
-                    <h2 className='mb-4'>Modifica profilo</h2>
+                    <h2 className='mb-4 fw-bold'>Modifica profilo</h2>
                     {serverInternalError && <p className='alert alert-warning'>{serverInternalError}</p>}
                     <ul>
                         {serverValidationErrors.map((serverValidationError, index) => (
@@ -181,7 +181,7 @@ function AuthUserSettings() {
                         
                         <textarea
                             placeholder='Raccontaci qualcosa di te'
-                            className='w-100'
+                            className='w-100 mb-2'
                             name="bio"
                             onChange={formik.handleChange}
                             value={formik.values.bio}
