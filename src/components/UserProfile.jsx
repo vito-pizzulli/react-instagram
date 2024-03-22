@@ -139,7 +139,7 @@ function UserProfile() {
                             ) : (
                                 <>
                                     <i className="fa-solid fa-camera fs-3 border border-black rounded-circle w-auto m-auto p-3"></i>
-                                    <p className='fs-3 text-center fw-bold'>Ancora nessun post</p>
+                                    <span className='fs-3 text-center fw-bold'>Ancora nessun post</span>
                                 </>
                             )}
                         </div>
