@@ -1,3 +1,4 @@
+// Importing necessary hooks and components.
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -5,20 +6,34 @@ import { useErrors } from "../contexts/ErrorsContext";
 import PostsContainer from './PostsContainer';
 import Loading from "./Loading";
 
+// Component function that encapsulates the logic and UI for the site home page.
 function Home() {
+
+    // Destructuring server url and confirm message, along with setConfirmMessage function from useAuth custom hook.
     const { serverUrl, confirmMessage, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error, along with his setter function from useErrors custom hook.
     const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing state management.
     const [posts, setPosts] = useState([]);
     const [postsLoading, setPostsLoading] = useState(true);
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Initializing useEffect hook to perform actions on component mount.
     useEffect(() => {
         setServerInternalError();
+
+        // Asynchronous function to load all the users posts from the server.
         const getAllPosts = async () => {
+
+            // Attempt to send a GET request to the server and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/posts`, {
                 method: 'GET',
-                credentials: 'include',
+                credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const result = await response.json();
 
@@ -39,6 +54,7 @@ function Home() {
         getAllPosts();
     }, [ serverUrl, setServerInternalError ]);
 
+    // Handler for the navigation to the path for adding a new post.
     function handleAddPostNavigation() {
         setConfirmMessage('');
         navigate('/add-post');

@@ -1,3 +1,4 @@
+// Importing necessary hooks, styles and assets.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,27 +9,40 @@ import loginImage from '../assets/images/login-image.png';
 import googlePlay from '../assets/images/google-play.png';
 import appStore from '../assets/images/app-store.png';
 
+// Component function that encapsulates the logic and UI for the login page.
 function Login() {
+
+    // Destructuring server url and confirm message, along with setter functions for authenticated status, authenticated user info and confirm message from useAuth custom hook.
     const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage, confirmMessage } = useAuth();
+
+    // Destructuring server internal error, along with his setter function from useErrors custom hook.
     const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing state management.
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Handler for the navigation to the path for registering a new user.
     function handleRegistrationNavigation() {
         setConfirmMessage('');
         setServerInternalError('');
         navigate('/registration');
     };
 
+    // Handler for the navigation to the path for authenticating with Google.
     function handleGoogleLogin() {
         window.location.href = `${serverUrl}auth/google`;
     };
 
+    // Function to handle the reset of the password field.
     function resetPassword() {
         setPassword('');
     };
 
+    // Asynchronous function to handle form submission and creating FormData object.
     async function handleLogin(event) {
         event.preventDefault();
 
@@ -39,11 +53,13 @@ function Login() {
         setEmail(formDataObject.email);
         setPassword(formDataObject.password);
 
+        // Check to make sure the user has populated both email and password fields. If not, submission is halted.
         if (!formDataObject.email.trim() || !formDataObject.password.trim()) {
             setServerInternalError("E-mail e password sono campi obbligatori.");
             return;
         }
 
+        // Attempt to send the formData as a JSON string to the server via POST request and handle response or errors.
         try {
             const response = await fetch(`${serverUrl}api/login`, {
                 method: 'POST',
@@ -51,7 +67,7 @@ function Login() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formDataObject),
-                credentials: 'include'
+                credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
             });
             const data = await response.json();
 
@@ -65,7 +81,7 @@ function Login() {
                 setConfirmMessage(data.message);
                 setAuthUserInfo(data.user);
                 setAuthenticated(true);
-                navigate('/');
+                navigate('/'); // Redirect to Home page on success.
             }
 
         } catch (err) {

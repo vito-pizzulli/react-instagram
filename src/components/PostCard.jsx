@@ -1,8 +1,12 @@
+// Importing necessary hooks and styles.
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styles from '../assets/styles/PostCard.module.scss';
 
+// Component function that encapsulates the logic and UI for the single post card element dynamically generates by its parent component.
 function PostCard({image_url, username, slug}) {
+
+    // Destructuring server url from useAuth custom hook.
     const { serverUrl } = useAuth();
 
     return (

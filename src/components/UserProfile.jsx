@@ -1,3 +1,4 @@
+// Importing necessary hooks, components and styles.
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,19 +7,33 @@ import Loading from "./Loading";
 import PostCardsContainer from './PostCardsContainer';
 import styles from '../assets/styles/UserProfile.module.scss';
 
+// Component function that encapsulates the logic and UI for the user profile page.
 function UserProfile() {
+
+    // Destructuring server url, confirm message and authenticated user info along with setter functions for confirm message and authenticated status from useAuth custom hook.
     const { serverUrl, confirmMessage, setConfirmMessage, setAuthenticated, authUserInfo } = useAuth();
+
+    // Destructuring server internal error, along with his setter function from useErrors custom hook.
     const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing state management.
     const [postCards, setPostCards] = useState([]);
-    const { username } = useParams();
     const [user, setUser] = useState(null);
     const [elementsLoading, setElementsLoading] = useState(true);
     const [numberOfPosts, setNumberOfPosts] = useState(0);
+
+    // Destructuring to extract 'username' and 'slug' values from the URL parameters using the useParams hook from React Router.
+    const { username } = useParams();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Initializing useEffect hook to perform actions on component mount.
     useEffect(() => {
         setNumberOfPosts(0);
         setServerInternalError();
+
+        // Asynchronous function to fetch and load the single user's info.
         const getUserByUsername = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/${username}`, {
@@ -40,6 +55,7 @@ function UserProfile() {
 
         getUserByUsername();
 
+        // Asynchronous function to fetch and load all the single user's posts.
         const getUserPosts = async () => {
             try {
                 const response = await fetch(`${serverUrl}api/userPosts/${username}`, {
@@ -66,16 +82,19 @@ function UserProfile() {
         getUserPosts();
     }, [ username, serverUrl, setServerInternalError, navigate ]);
 
+    // Handler for the navigation to the authenticated user's settings page.
     function handleSettingsNavigation() {
         navigate('/settings');
     }
 
+    // Asynchronous function to handle the user logout.
     async function handleLogout(event) {
         event.preventDefault();
 
+        // Attempt to send a POST request to the server and handle response or errors.
         try {
             const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
-            credentials: 'include'
+            credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
             });
             const data = await response.json();
             if (!response.ok) {
@@ -85,7 +104,7 @@ function UserProfile() {
             setServerInternalError('');
             setConfirmMessage(data.message);
             setAuthenticated(false);
-            navigate('/login');
+            navigate('/login'); // Redirect to Login page on success.
         } catch (err) {
             console.error(err);
         }

@@ -1,6 +1,8 @@
+// Importing necessary styles and asset.
 import styles from '../assets/styles/NotFound.module.scss';
 import logo from '../assets/images/logo.png';
 
+// Component function that encapsulates the UI for the resource not found page.
 function NotFound() {
     return (
         <div className={`${styles.notFound} notFound container-fluid`}>

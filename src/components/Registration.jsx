@@ -1,3 +1,4 @@
+// Importing necessary hooks, library, styles and assets.
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,6 +9,7 @@ import logo from '../assets/images/logo.png';
 import googlePlay from '../assets/images/google-play.png';
 import appStore from '../assets/images/app-store.png';
 
+// Validation schema using Yup for form data validation.
 const validationSchema = yup.object({
     email: yup.string()
         .required('Il campo e-mail non può essere vuoto.')
@@ -45,11 +47,19 @@ const validationSchema = yup.object({
             value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
+// Component function that encapsulates the logic and UI for the registration page.
 function Registration() {
+
+    // Destructuring server url, along with setter functions for authenticated status, authenticated user info and confirm message from useAuth custom hook.
     const { serverUrl, setAuthenticated, setAuthUserInfo, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Defining form initial values using Formik.
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -59,7 +69,11 @@ function Registration() {
             name: '',
             profile_pic_url: null
         },
+
+        // Linking Yup validation schema to Formik.
         validationSchema: validationSchema,
+
+        // Asynchronous function to handle form submission, creating FormData object and handling file uploads.
         onSubmit: async (values) => {
             const formData = new FormData();
             Object.keys(values).forEach(key => {
@@ -73,11 +87,12 @@ function Registration() {
                 formData.append("profile_pic_url", values.profile_pic_url);
             }
             
+            // Attempt to send the formData to the server via POST request and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/register`, {
                     method: 'POST',
                     body: formData,
-                    credentials: 'include'
+                    credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const data = await response.json();
                 setServerInternalError('');
@@ -96,7 +111,7 @@ function Registration() {
                     setConfirmMessage(data.message);
                     setAuthUserInfo(data.user);
                     setAuthenticated(true);
-                    navigate('/');
+                    navigate('/'); // Redirect to Home page on success.
                 }
 
             } catch (err) {
@@ -105,18 +120,22 @@ function Registration() {
         }
     });
 
+    // Handler for resetting the Formik form.
     function handleReset() {
         formik.resetForm();
     };
 
+    // Handler for the navigation to the path for authenticating with Google.
     function handleGoogleLogin() {
         window.location.href = `${serverUrl}auth/google`;
     };
 
+    // Handler for the navigation to the path for registering a new user.
     function handleLoginNavigation() {
         navigate('/login');
     };
 
+    // Handler for updating the Formik form state for file input changes.
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
         formik.setFieldValue("profile_pic_url", file);

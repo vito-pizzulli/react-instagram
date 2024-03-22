@@ -1,3 +1,4 @@
+// Importing necessary hooks, library and styles.
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -5,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
 import styles from '../assets/styles/Forms.module.scss';
 
+// Validation schema using Yup for form data validation.
 const validationSchema = yup.object({
     image_url: yup.mixed()
         .required("É necessario caricare un'immagine per pubblicare il post.")
@@ -22,22 +24,34 @@ const validationSchema = yup.object({
         .max(255, 'Il nome utente deve contenere tra 3 e 30 caratteri.')
 });
 
+// Component function that encapsulates the logic and UI for the page that allows the user to create a new post.
 function AddPost() {
+
+    // Destructuring server url, along with setConfirmMessage function from useAuth custom hook.
     const { serverUrl, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Defining form initial values using Formik.
     const formik = useFormik({
         initialValues: {
             description: '',
             location: '',
             image_url: null
         },
+
+        // Linking Yup validation schema to Formik.
         validationSchema: validationSchema,
+
+        // Asynchronous function to handle form submission, creating FormData object and handling file uploads.
         onSubmit: async (values) => {
             const formData = new FormData();
             Object.keys(values).forEach(key => {
-
+                
                 if (key !== 'image_url') {
                     formData.append(key, values[key]);
                 }
@@ -47,16 +61,20 @@ function AddPost() {
                 formData.append("image_url", values.image_url);
             }
             
+            // Attempt to send the formData to the server via POST request and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/addPost`, {
                     method: 'POST',
                     body: formData,
-                    credentials: 'include'
+                    credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const data = await response.json();
+
+                // Errors reset before checking the response.
                 setServerInternalError('');
                 setServerValidationErrors([]);
 
+                // Handle server responses, updating contexts for errors or successful operation messages.
                 if (!response.ok) {
                     if (data.errors) {
                         setServerValidationErrors(data.errors.map(error => error.msg));
@@ -65,10 +83,10 @@ function AddPost() {
                     if (data.message) {
                         setServerInternalError(data.message);
                     }
-
+                
                 } else {
                     setConfirmMessage(data.message);
-                    navigate('/');
+                    navigate('/'); // Redirect to Home page on success.
                 }
 
             } catch (err) {
@@ -77,10 +95,12 @@ function AddPost() {
         }
     });
 
+    // Handler for resetting the Formik form.
     function handleReset() {
         formik.resetForm();
     };
 
+    // Handlers for updating the Formik form state for file input changes.
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
         formik.setFieldValue("image_url", file);

@@ -1,17 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+// Importing necessary hooks and styles.
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
 import styles from '../assets/styles/SearchUsers.module.scss';
 
+// Component function that encapsulates the logic and UI for the component that allows the user to search for other registered users.
 function SearchUsers() {
+
+    // Destructuring server url, along with setConfirmMessage function from useAuth custom hook.
+    const { serverUrl, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error, along with his setter function from useErrors custom hook.
+    const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing state management.
     const [searchWord, setSearchWord] = useState('');
     const [foundUsers, setFoundUsers] = useState([]);
-    const { serverUrl, setConfirmMessage } = useAuth();
-    const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
+
+    // useRef hook to create a mutable object that persists for the lifetime of the component.
     const dropdownMenu = useRef(null);
 
+    // Debounce function to limit the rate at which the function is executed.
     const debounce = (func, delay) => {
         let inDebounce;
         return function() {
@@ -22,8 +35,13 @@ function SearchUsers() {
         };
     };
 
+    // Initializing useEffect hook to perform actions on component mount.
     useEffect(() => {
+
+        // Asynchronous function to search users according of the word the user inserted.
         const doSearch = async () => {
+
+            // Attempt to send a GET request to the server and handle response or errors if the word to search is different from an empty string.
             if (searchWord.trim() !== '') {
                 try {
                     const response = await fetch(`${serverUrl}api/searchUsers/${encodeURIComponent(searchWord.trim())}`);
@@ -46,9 +64,11 @@ function SearchUsers() {
             }
         };
 
+        // Creating a debounced version of the search function to limit the rate of search operation execution.
         const debouncedSearch = debounce(doSearch, 500);
         debouncedSearch();
 
+        // Function that empties the found users array and makes the dropdown menu disappear if the user clicks outside it.
         const handleClickOutside = (event) => {
             if (dropdownMenu.current && !dropdownMenu.current.contains(event.target)) {
                 setFoundUsers([]);
@@ -63,10 +83,12 @@ function SearchUsers() {
         };
     }, [searchWord, serverUrl, setServerInternalError, dropdownMenu]);
 
+    // Function that updates the word to search when after the user has typed something.
     const handleSearchChange = (e) => {
         setSearchWord(e.target.value);
     };
 
+    // Handler for the navigation to a user profile when the user clicks on it in the dropdown menu.
     const handleUserClick = (username) => {
         setSearchWord('');
         setConfirmMessage('');

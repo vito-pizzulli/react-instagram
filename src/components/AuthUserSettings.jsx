@@ -1,3 +1,4 @@
+// Importing necessary hooks, components, library and styles.
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -7,6 +8,7 @@ import { useErrors } from '../contexts/ErrorsContext';
 import ConfirmWindow from './ConfirmWindow';
 import styles from '../assets/styles/Forms.module.scss';
 
+// Validation schema using Yup for form data validation.
 const validationSchema = yup.object({
     email: yup.string()
         .email('Inserisci un indirizzo e-mail valido.')
@@ -44,26 +46,40 @@ const validationSchema = yup.object({
         .max(150, 'La bio non puó contenere piú di 150 caratteri.')
 });
 
+// Component function that encapsulates the logic and UI for the settings page that allows the authenticated user to update its info.
 function AuthUserSettings() {
+
+    // Destructuring authenticated user info and server url, along with setter functions for authenticated user info, authentication status and confirm message from useAuth custom hook.
     const { authUserInfo, setAuthUserInfo, setAuthenticated, serverUrl, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
+
+    // Initializing state management.
     const [confirmWindowVisible, setConfirmWindowVisible] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Initializing useEffect hook to perform actions on component mount.
     useEffect(() => {
+
+        // Asynchronous function to handle account deletion confirmation.
         const deleteAccountIfConfirmed = async () => {
+
+            // If the user has confirmed, attempt to send a DELETE request to the server and handle response or errors.
             if (isConfirmed) {
                 try {
                     const response = await fetch(`${serverUrl}api/deleteProfile`, {
                         method: 'DELETE',
-                        credentials: 'include'
+                        credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                     });
                     const data = await response.json();
                     setConfirmMessage(data.message);
                     setAuthUserInfo({});
                     setAuthenticated(false);
-                    navigate('/login');
+                    navigate('/login'); // Redirect to Login page on success.
         
                 } catch (err) {
                     console.error(err);
@@ -74,6 +90,7 @@ function AuthUserSettings() {
         deleteAccountIfConfirmed();
     }, [ isConfirmed, navigate, serverUrl, setAuthUserInfo, setAuthenticated, setConfirmMessage ]);
 
+    // Defining form initial values using Formik. If not populated, they will consist of an empty string.
     const formik = useFormik({
         initialValues: {
             email: authUserInfo.email || '',
@@ -84,7 +101,11 @@ function AuthUserSettings() {
             profile_pic_url: null,
             bio: authUserInfo.bio || ''
         },
+
+        // Linking Yup validation schema to Formik.
         validationSchema: validationSchema,
+
+        // Asynchronous function to handle form submission, creating FormData object and handling file uploads.
         onSubmit: async (values) => {
             const formData = new FormData();
             Object.keys(values).forEach(key => {
@@ -98,16 +119,18 @@ function AuthUserSettings() {
                 formData.append("profile_pic_url", values.profile_pic_url);
             }
 
+            // Validates that the 'password' and 'password_confirm' fields match before continuing with form submission. If they don't match, submission is halted.
             if (values.password && values.password !== values.password_confirm) {
                 formik.setFieldError('password_confirm', 'Le password non corrispondono.');
                 return;
             }
             
+            // Attempt to send the formData to the server via PATCH request and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/updateProfile`, {
                     method: 'PATCH',
                     body: formData,
-                    credentials: 'include'
+                    credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const data = await response.json();
                 setServerInternalError('');
@@ -125,7 +148,7 @@ function AuthUserSettings() {
                 } else {
                     setConfirmMessage(data.message);
                     setAuthUserInfo(data.user);
-                    navigate(`/${data.user.username}`);
+                    navigate(`/${data.user.username}`); // Redirect to User profile page on success.
                 }
 
             } catch (err) {
@@ -134,14 +157,17 @@ function AuthUserSettings() {
         }
     });
 
+    // Handler for resetting the Formik form.
     function handleReset() {
         formik.resetForm();
     };
 
-    async function handleAccountDelete() {
+    // Handler for making the confirm window visible.
+    function handleAccountDelete() {
         setConfirmWindowVisible(true);
     }
 
+    // Handler for updating the Formik form state for file input changes.
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
         formik.setFieldValue("profile_pic_url", file);
@@ -263,7 +289,8 @@ function AuthUserSettings() {
                     </form>
                 </div>
             </div>
-
+            
+            {/* Component to allow the user to confirm the account deletion, it becomes visible only if the user clicks on 'Cancella iscrizione' button. */}
             { confirmWindowVisible &&
                 <ConfirmWindow
                     message="Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata."

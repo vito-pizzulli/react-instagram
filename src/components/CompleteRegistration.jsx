@@ -1,3 +1,4 @@
+// Importing necessary hooks, library, styles and assets.
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -8,6 +9,7 @@ import logo from '../assets/images/logo.png';
 import googlePlay from '../assets/images/google-play.png';
 import appStore from '../assets/images/app-store.png';
 
+// Validation schema using Yup for form data validation.
 const validationSchema = yup.object({
     username: yup.string()
         .required('Il campo nome utente non può essere vuoto.')
@@ -28,18 +30,30 @@ const validationSchema = yup.object({
             value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type))
 });
 
+// Component function that encapsulates the logic and UI for completing the registration after signin in with Google.
 function CompleteRegistration() {
+
+    // Destructuring server url and authenticated user info, along with setter functions for authenticated status, authenticated user info and confirm message from useAuth custom hook.
     const { serverUrl, authUserInfo, setAuthenticated, setAuthUserInfo, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Defining form initial values using Formik.
     const formik = useFormik({
         initialValues: {
             username: '',
             name: '',
             profile_pic_url: null
         },
+
+        // Linking Yup validation schema to Formik.
         validationSchema: validationSchema,
+
+        // Asynchronous function to handle form submission, creating FormData object and handling file uploads.
         onSubmit: async (values) => {
             const formData = new FormData();
             Object.keys(values).forEach(key => {
@@ -53,15 +67,17 @@ function CompleteRegistration() {
                 formData.append("profile_pic_url", values.profile_pic_url);
             }
 
+            // Adds the user's email populated after the authentication with Google to the formData.
             if (authUserInfo) {
                 formData.append("email", authUserInfo.email);
             }
             
+            // Attempt to send the formData to the server via PUT request and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/completeRegistration`, {
                     method: 'PUT',
                     body: formData,
-                    credentials: 'include'
+                    credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const data = await response.json();
                 setServerInternalError('');
@@ -79,7 +95,7 @@ function CompleteRegistration() {
                 } else {
                     setConfirmMessage(data.message);
                     setAuthUserInfo(data.user);
-                    navigate('/');
+                    navigate('/'); // Redirect to Home page on success.
                 }
 
             } catch (err) {
@@ -88,21 +104,24 @@ function CompleteRegistration() {
         }
     });
 
+    // Handlers for resetting the Formik form.
     function handleReset() {
         formik.resetForm();
     };
 
+    // Handler for updating the Formik form state for file input changes.
     function handleFileChange(event) {
         const file = event.currentTarget.files[0];
         formik.setFieldValue("profile_pic_url", file);
     };
 
+    // Asynchronous function to handle the user logout.
     async function handleLogout(event) {
-        event.preventDefault();
-
+        
+        // Attempt to send a POST request to the server and handle response or errors.
         try {
             const response = await fetch(`${serverUrl}api/logout`, { method: 'POST',
-            credentials: 'include'
+            credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
             });
             const data = await response.json();
             if (!response.ok) {
@@ -112,7 +131,8 @@ function CompleteRegistration() {
             setServerInternalError('');
             setConfirmMessage(data.message);
             setAuthenticated(false);
-            navigate('/login');
+            navigate('/login'); // Redirect to Login page on success.
+
         } catch (err) {
             console.error(err);
         }

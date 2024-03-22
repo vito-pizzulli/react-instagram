@@ -1,12 +1,16 @@
+// Importing necessary styles.
 import styles from '../assets/styles/ConfirmWindow.module.scss';
 
+// Component function that encapsulates the logic and UI for the confirm window.
 function ConfirmWindow({ message, setIsConfirmed, setConfirmWindowVisible }) {
 
+    // Function to set isConfirmed on true and make the confirm window disappear if the user has clicked Yes.
     function handleConfirm() {
         setIsConfirmed(true);
         setConfirmWindowVisible(false);
     }
 
+    // Function to make the confirm window disappear if the user has clicked No or outside the confirm window.
     function handleCancel() {
         setConfirmWindowVisible(false);
     }

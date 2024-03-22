@@ -1,3 +1,4 @@
+// Importing necessary hooks, component, styles and asset.
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
@@ -5,11 +6,19 @@ import SearchUsers from './SearchUsers';
 import styles from '../assets/styles/Header.module.scss';
 import logo from '../assets/images/logo.png';
 
+// Component function that encapsulates the logic and UI for the page header.
 function Header() {
+
+    // Destructuring authenticated status, authenticated user info and server ur, along with setConfirmMessage function from useAuth custom hook.
     const { isAuthenticated, authUserInfo, serverUrl, setConfirmMessage } = useAuth();
+
+    // Destructuring setServerInternalError function from useErrors custom hook.
     const { setServerInternalError } = useErrors();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Function for resetting confirm message and server internal error fields and navigating to a specific path.
     function handleNavigation(path) {
         setConfirmMessage('');
         setServerInternalError('');

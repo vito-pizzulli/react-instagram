@@ -1,3 +1,4 @@
+// Importing necessary hooks, components, library and styles.
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,23 +9,38 @@ import Loading from './Loading';
 import ConfirmWindow from './ConfirmWindow';
 import styles from '../assets/styles/ShowPost.module.scss';
 
+// Component function that encapsulates the logic and UI for the page that shows a single post.
 function ShowPost() {
+
+    // Destructuring authenticated user info and server url, along with setConfirmMessage function from useAuth custom hook.
     const { authUserInfo, serverUrl, setConfirmMessage } = useAuth();
+
+    // Destructuring server internal error, along with his setter function from useErrors custom hook.
     const { serverInternalError, setServerInternalError } = useErrors();
+
+    // Initializing state management.
     const [post, setPost] = useState({});
     const [postLoading, setPostLoading] = useState(true);
     const [confirmWindowVisible, setConfirmWindowVisible] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState();
+
+    // Destructuring to extract 'username' and 'slug' values from the URL parameters using the useParams hook from React Router.
     const { username, slug } = useParams();
+
+    // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
+    // Initializing useEffect hook to perform actions on component mount.
     useEffect(() => {
         setPostLoading(true);
+
+        // Asynchronous function to fetch and load the single post's info from the server.
         const getSinglePost = async () => {
+
+            // Attempt to send a GET request to the server and handle response or errors.
             try {
                 const response = await fetch(`${serverUrl}api/posts/${username}/${slug}`, {
-                method: 'GET',
-                credentials: 'include',
+                credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                 });
                 const result = await response.json();
 
@@ -42,12 +58,15 @@ function ShowPost() {
             }
         };
 
+        // Asynchronous function to handle post deletion confirmation.
         const deletePostIfConfirmed = async () => {
+
+            // If the user has confirmed, attempt to send a DELETE request to the server and handle response or errors.
             if (isConfirmed) {
                 try {
                     const response = await fetch(`${serverUrl}api/deletePost/${post.id}`, {
                         method: 'DELETE',
-                        credentials: 'include',
+                        credentials: 'include' // Includes credentials to ensure cookies are sent with the request.
                     });
                     const data = await response.json();
 
@@ -56,7 +75,7 @@ function ShowPost() {
                         return;
                     }
                     setConfirmMessage(data.message);
-                    navigate('/');
+                    navigate('/'); // Redirect to Home page on success.
         
                 } catch (err) {
                     console.error(err);
@@ -68,10 +87,12 @@ function ShowPost() {
         deletePostIfConfirmed();
     }, [ username, slug, serverUrl, setServerInternalError, isConfirmed, navigate, post.id, setConfirmMessage ]);
 
+    // Function to make the confirm window visible.
     function handlePostDelete() {
         setConfirmWindowVisible(true);
     };
 
+    // Function to format the date in italian format.
     function formatDate(date) {
         moment.locale('it');
         return moment(date).format('D MMMM YYYY');

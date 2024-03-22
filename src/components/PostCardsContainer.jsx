@@ -1,5 +1,7 @@
+// Importing necessary component.
 import PostCard from './PostCard';
 
+// Component function that encapsulates the UI for the post cards container. It dynamically generates one post card component for each element of the postCards array.
 function PostCardsContainer({postCards}) {
 
     return (
