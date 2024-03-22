@@ -1,0 +1,13 @@
+div.confirmWindow {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.700);
+
+    div.messageContainer {
+        button {
+            background-color: #4cb5f9;
+            width: 100px;
+        }
+    }
+}

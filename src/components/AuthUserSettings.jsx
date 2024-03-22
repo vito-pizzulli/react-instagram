@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import ConfirmWindow from './ConfirmWindow';
 import styles from '../assets/styles/Forms.module.scss';
 
 const validationSchema = yup.object({
@@ -45,7 +47,32 @@ const validationSchema = yup.object({
 function AuthUserSettings() {
     const { authUserInfo, setAuthUserInfo, setAuthenticated, serverUrl, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
+    const [confirmWindowVisible, setConfirmWindowVisible] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const deleteAccountIfConfirmed = async () => {
+            if (isConfirmed) {
+                try {
+                    const response = await fetch(`${serverUrl}api/deleteProfile`, {
+                        method: 'DELETE',
+                        credentials: 'include'
+                    });
+                    const data = await response.json();
+                    setConfirmMessage(data.message);
+                    setAuthUserInfo({});
+                    setAuthenticated(false);
+                    navigate('/login');
+        
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        };
+        
+        deleteAccountIfConfirmed();
+    }, [ isConfirmed, navigate, serverUrl, setAuthUserInfo, setAuthenticated, setConfirmMessage ]);
 
     const formik = useFormik({
         initialValues: {
@@ -112,24 +139,7 @@ function AuthUserSettings() {
     };
 
     async function handleAccountDelete() {
-        const isConfirmed = window.confirm("Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata.");
-
-        if (isConfirmed) {
-            try {
-                const response = await fetch(`${serverUrl}api/deleteProfile`, {
-                    method: 'DELETE',
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                setConfirmMessage(data.message);
-                setAuthUserInfo({});
-                setAuthenticated(false);
-                navigate('/login');
-    
-            } catch (err) {
-                console.error(err);
-            }
-        }
+        setConfirmWindowVisible(true);
     }
 
     function handleFileChange(event) {
@@ -253,6 +263,14 @@ function AuthUserSettings() {
                     </form>
                 </div>
             </div>
+
+            { confirmWindowVisible &&
+                <ConfirmWindow
+                    message="Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata."
+                    setIsConfirmed={setIsConfirmed}
+                    setConfirmWindowVisible={setConfirmWindowVisible}
+                />
+            }
         </div>
     );
 }

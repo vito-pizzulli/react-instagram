@@ -5,13 +5,16 @@ import { useErrors } from '../contexts/ErrorsContext';
 import moment from 'moment';
 import 'moment/locale/it';
 import Loading from './Loading';
+import ConfirmWindow from './ConfirmWindow';
 import styles from '../assets/styles/ShowPost.module.scss';
 
 function ShowPost() {
     const { authUserInfo, serverUrl, setConfirmMessage } = useAuth();
     const { serverInternalError, setServerInternalError } = useErrors();
     const [post, setPost] = useState({});
-    const [postLoading, setPostLoading] = useState(false);
+    const [postLoading, setPostLoading] = useState(true);
+    const [confirmWindowVisible, setConfirmWindowVisible] = useState(false);
+    const [isConfirmed, setIsConfirmed] = useState();
     const { username, slug } = useParams();
     const navigate = useNavigate();
 
@@ -38,33 +41,36 @@ function ShowPost() {
                 setServerInternalError('Si è verificato un errore durante il recupero del post.');
             }
         };
+
+        const deletePostIfConfirmed = async () => {
+            if (isConfirmed) {
+                try {
+                    const response = await fetch(`${serverUrl}api/deletePost/${post.id}`, {
+                        method: 'DELETE',
+                        credentials: 'include',
+                    });
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
+                        return;
+                    }
+                    setConfirmMessage(data.message);
+                    navigate('/');
+        
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        };
         
         getSinglePost();
-    }, [ username, slug, serverUrl, setServerInternalError ]);
+        deletePostIfConfirmed();
+    }, [ username, slug, serverUrl, setServerInternalError, isConfirmed, navigate, post.id, setConfirmMessage ]);
 
-    async function handlePostDelete() {
-        const isConfirmed = window.confirm("Sei sicuro di voler eliminare questo post? Questa azione non può essere annullata.");
-
-        if (isConfirmed) {
-            try {
-                const response = await fetch(`${serverUrl}api/deletePost/${post.id}`, {
-                    method: 'DELETE',
-                    credentials: 'include'
-                });
-                const data = await response.json();
-
-                if (!response.ok) {
-                    setServerInternalError(data.message || 'Si é verificato un errore non specificato.');
-                    return;
-                }
-                setConfirmMessage(data.message);
-                navigate('/');
-    
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    }
+    function handlePostDelete() {
+        setConfirmWindowVisible(true);
+    };
 
     function formatDate(date) {
         moment.locale('it');
@@ -132,6 +138,14 @@ function ShowPost() {
                     <p className='alert alert-danger'>Post non trovato.</p>
                 ))
             : <Loading />}
+
+            { confirmWindowVisible &&
+                <ConfirmWindow
+                    message="Sei sicuro di voler eliminare questo post? Questa azione non può essere annullata."
+                    setIsConfirmed={setIsConfirmed}
+                    setConfirmWindowVisible={setConfirmWindowVisible}
+                />
+            }
         </div>
     )
 };
