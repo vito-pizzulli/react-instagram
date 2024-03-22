@@ -86,32 +86,35 @@ function ShowPost() {
                 (Object.keys(post).length !== 0 ? (
 
                     <div className="row">
-                        <div className="col-12 col-xxl-9 border border-secondary-subtle d-flex justify-content-center">
+                        <div className={`${styles.borderMd} col-12 col-xxl-9 d-flex justify-content-center`}>
                             <img className={`${styles.postPic} object-fit-contain`} src={`${serverUrl}${post.image_url}`} alt="Post Pic" />
                         </div>
                         <div className="col-12 col-xxl-3 p-0 d-flex flex-column">
 
-                            <div className="row border border-secondary-subtle p-3 m-0">
-                                <div className="col-2">
+                            <div className={`${styles.borderMd} row p-3 m-0`}>
+                                <div className="col-3 text-center">
                                     <Link to={`/${post.username}`}>
                                         <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
                                     </Link>
                                 </div>
-                                <div className="col-10 d-flex flex-column">
+                                <div className="col-9 d-flex flex-column">
                                     <Link className='text-decoration-none text-black fw-semibold' to={`/${post.username}`}>{post.username}</Link>
-                                    <span className={styles.location}>{post.location}</span>
+                                    <span className={`${styles.location} mb-3`}>{post.location}</span>
+                                    {post.username === authUserInfo.username &&
+                                        <button className={`${styles.delete} btn fw-semibold w-100`} type='button' onClick={handlePostDelete}>Elimina</button>
+                                    }
                                 </div>
                             </div>
                             
-                            <div className="row border border-secondary-subtle p-3 m-0 h-100 d-flex flex-column justify-content-between">
+                            <div className={`${styles.postInfoContainer} ${styles.borderMd} row p-3 m-0 h-100 d-flex flex-column justify-content-between`}>
 
-                                <div className="row">
-                                    <div className="col-2 d-flex flex-column justify-content-between z-1 pb-3">
+                                <div className="row m-0 p-0 mb-4">
+                                    <div className="col-3 z-1 text-center">
                                         <Link to={`/${post.username}`}>
                                             <img className={`${styles.profilePic} object-fit-cover rounded-circle`} src={`${serverUrl}${post.profile_pic_url}`} alt="Profile Pic" />
                                         </Link>
                                     </div>
-                                    <div className="col-10 d-flex flex-column">
+                                    <div className="col-9 d-flex flex-column">
                                         <p className={`${styles.description} d-inline`}>
                                             <Link className='text-decoration-none text-black fw-semibold' to={`/${post.username}`}>{post.username}</Link> {post.description}
                                         </p>
@@ -119,16 +122,11 @@ function ShowPost() {
                                     </div>
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-6 d-flex">
+                                <div className="row align-items-center m-0 p-0 pb-2 flex-column">
+                                    <div className="col-12 d-flex justify-content-start">
                                         <i className={`${styles.postIcon} fa-regular fa-heart`}></i>
                                         <i className={`${styles.postIcon} fa-regular fa-comment`}></i>
                                         <i className={`${styles.postIcon} fa-regular fa-bookmark`}></i>
-                                    </div>
-                                    <div className="col-6">
-                                        {post.username === authUserInfo.username &&
-                                            <button className={`${styles.delete} btn fw-semibold w-100`} type='button' onClick={handlePostDelete}>Elimina</button>
-                                        }
                                     </div>
                                 </div>
                             </div>

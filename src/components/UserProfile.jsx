@@ -104,8 +104,8 @@ function UserProfile() {
                             </div>
                             <div className="col-12 col-md-7">
                                 <div className="row mb-3">
-                                    <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-start">
-                                        <h2 className='mb-3 me-md-4 fs-4'>{user.username || 'username'}</h2>
+                                    <div className="col-12 d-flex flex-column flex-md-row justify-content-center justify-content-md-start align-items-center mb-3">
+                                        <h2 className='me-md-4 fs-4'>{user.username || 'username'}</h2>
                                         {user.username === authUserInfo.username &&
                                             <>
                                                 <button className='mb-2 mb-md-0 me-md-4 btn btn-light fw-semibold' onClick={handleSettingsNavigation}>Modifica profilo</button>
@@ -114,8 +114,8 @@ function UserProfile() {
                                         }
                                     </div>
                                 </div>
-                                <div className="row mb-3">
-                                    <div className="col-4 d-flex justify-content-between">
+                                <div className="row mb-5">
+                                    <div className="col-12 col-xxl-4 d-flex justify-content-between">
                                         <span><strong className='fs-5 fw-semibold'>{numberOfPosts}</strong> post</span>
                                         <span><strong className='fs-5 fw-semibold'>0</strong> follower</span>
                                         <span><strong className='fs-5 fw-semibold'>0</strong> seguiti</span>

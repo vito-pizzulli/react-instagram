@@ -10,29 +10,9 @@ div.showPost {
         max-height: 1000px;
     }
 
-    i.postIcon {
-        font-size: 2rem;
-        margin-right: 2rem;
-        color: black;
-        cursor: pointer;
-    
-        &:hover {
-            color: grey;
-        }
-    }
-
-    p.description,
     span.location {
         overflow-wrap: break-word;
-    }
-
-    span.location,
-    span.date {
         font-size: .8rem;
-    }
-
-    span.date {
-        color: grey;
     }
 
     button {
@@ -45,6 +25,36 @@ div.showPost {
             &:hover {
                 background-color: rgb(255, 236, 236);
             }
+        }
+    }
+
+    @media (min-width: 768px) {
+        div.borderMd {
+            border: 1px solid #dee2e6;
+        }
+    }
+
+    div.postInfoContainer {
+        min-height: 55vh;
+        
+        i.postIcon {
+            font-size: 2rem;
+            margin-right: 2rem;
+            color: black;
+            cursor: pointer;
+        
+            &:hover {
+                color: grey;
+            }
+        }
+
+        p.description {
+            overflow-wrap: break-word;
+        }
+
+        span.date {
+            color: grey;
+            font-size: .8rem;
         }
     }
 }
