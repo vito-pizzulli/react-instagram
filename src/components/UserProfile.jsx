@@ -45,7 +45,7 @@ function UserProfile() {
                 if(response.status === 404) {
                     navigate('/not-found');
                 }
-                setUser(result[0]);
+                setUser(result);
                 
             } catch (err) {
                 console.error(err);
