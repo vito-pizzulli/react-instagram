@@ -1,9 +1,11 @@
-// Importing necessary hooks, library, styles and assets.
+// Importing necessary hooks, component, library, styles and assets.
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import Loading from './Loading';
 import styles from '../assets/styles/Forms.module.scss';
 import logo from '../assets/images/logo.png';
 import googlePlay from '../assets/images/google-play.png';
@@ -39,6 +41,9 @@ function CompleteRegistration() {
     // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
 
+    // Initializing state management.
+    const [registrationLoading, setRegistrationLoading] = useState(false);
+
     // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
@@ -71,6 +76,9 @@ function CompleteRegistration() {
             if (authUserInfo) {
                 formData.append("email", authUserInfo.email);
             }
+
+            // Setting registrationLoading to true so the Loading component will show while the registration is completing.
+            setRegistrationLoading(true);
             
             // Attempt to send the formData to the server via PUT request and handle response or errors.
             try {
@@ -85,10 +93,12 @@ function CompleteRegistration() {
 
                 if (!response.ok) {
                     if (data.errors) {
+                        setRegistrationLoading(false);
                         setServerValidationErrors(data.errors.map(error => error.msg));
                     }
 
                     if (data.message) {
+                        setRegistrationLoading(false);
                         setServerInternalError(data.message);
                     }
 
@@ -141,7 +151,7 @@ function CompleteRegistration() {
     return (
         <div className={`${styles.completeRegistration} completeRegistration container-fluid`}>
             <div className="row m-auto">
-                <div className="col-12 col-xl-5 m-auto border border-secondary-subtle p-5 text-center mb-3">
+                <div className="col-12 col-xl-5 m-auto border border-secondary-subtle p-3 px-0 px-md-5 text-center mb-3">
                     <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
                         <img className='w-50 m-auto mb-4' src={logo} alt="Instagram Logo" />
                         <span>Ciao, <strong>{authUserInfo.email}</strong>!</span>
@@ -153,49 +163,53 @@ function CompleteRegistration() {
                                 <li className='alert alert-warning' key={index}>{serverValidationError}</li>
                             ))}
                         </ul>
+
+                        {!registrationLoading ? (
+                            <>
+                                <div className="position-relative">
+                                    <label htmlFor='name'>Nome e cognome</label>
+                                    <input
+                                        placeholder='Es: Mario Rossi'
+                                        className='w-100'
+                                        type="text"
+                                        name="name"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.name}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+                                {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
+
+                                <div className="position-relative">
+                                    <label htmlFor='username'>Nome utente</label>
+                                    <input
+                                        placeholder='Es: mario.rossi.94'
+                                        className='w-100'
+                                        type="text"
+                                        name="username"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.username}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+                                {formik.touched.username && formik.errors.username ? <p className='alert alert-warning'>{formik.errors.username}</p> : null}
                                 
-                        <div className="position-relative">
-                            <label htmlFor='name'>Nome e cognome</label>
-                            <input
-                                placeholder='Es: Mario Rossi'
-                                className='w-100'
-                                type="text"
-                                name="name"
-                                onChange={formik.handleChange}
-                                value={formik.values.name}
-                                onBlur={formik.handleBlur}
-                            />
-                        </div>
-                        {formik.touched.name && formik.errors.name ? <p className='alert alert-warning'>{formik.errors.name}</p> : null}
+                                <div className="position-relative">
+                                    <label htmlFor='profile_pic_url'>Immagine del profilo</label>
+                                    <input
+                                        className='w-100'
+                                        type="file"
+                                        name='profile_pic_url'
+                                        onChange={handleFileChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                </div>
+                                {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p className='alert alert-warning'>{formik.errors.profile_pic_url}</p> : null}
 
-                        <div className="position-relative">
-                            <label htmlFor='username'>Nome utente</label>
-                            <input
-                                placeholder='Es: mario.rossi.94'
-                                className='w-100'
-                                type="text"
-                                name="username"
-                                onChange={formik.handleChange}
-                                value={formik.values.username}
-                                onBlur={formik.handleBlur}
-                            />
-                        </div>
-                        {formik.touched.username && formik.errors.username ? <p className='alert alert-warning'>{formik.errors.username}</p> : null}
-                        
-                        <div className="position-relative">
-                            <label htmlFor='profile_pic_url'>Immagine del profilo</label>
-                            <input
-                                className='w-100'
-                                type="file"
-                                name='profile_pic_url'
-                                onChange={handleFileChange}
-                                onBlur={formik.handleBlur}
-                            />
-                        </div>
-                        {formik.touched.profile_pic_url && formik.errors.profile_pic_url ? <p className='alert alert-warning'>{formik.errors.profile_pic_url}</p> : null}
-
-                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Iscriviti</button>
-                        <button className='mb-3 btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
+                                <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Iscriviti</button>
+                                <button className='mb-3 btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
+                            </>
+                        ) : <Loading />}
                     </form>
                 </div>
             </div>

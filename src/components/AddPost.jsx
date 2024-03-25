@@ -1,9 +1,11 @@
-// Importing necessary hooks, library and styles.
+// Importing necessary hooks, component, library and styles.
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useAuth } from '../contexts/AuthContext';
 import { useErrors } from '../contexts/ErrorsContext';
+import Loading from './Loading';
 import styles from '../assets/styles/Forms.module.scss';
 
 // Validation schema using Yup for form data validation.
@@ -33,6 +35,9 @@ function AddPost() {
     // Destructuring server internal error and server validation errors, along with their setter functions from useErrors custom hook.
     const { serverInternalError, setServerInternalError, serverValidationErrors, setServerValidationErrors} = useErrors();
 
+    // Initializing state management.
+    const [postPublishingLoading, setPostPublishingLoading] = useState(false);
+
     // Initializing the navigate function from React Router for managing navigation.
     const navigate = useNavigate();
 
@@ -60,6 +65,9 @@ function AddPost() {
             if (values.image_url) {
                 formData.append("image_url", values.image_url);
             }
+
+            // Setting postPublishingLoading to true so the Loading component will show while the post is publishing.
+            setPostPublishingLoading(true);
             
             // Attempt to send the formData to the server via POST request and handle response or errors.
             try {
@@ -77,10 +85,12 @@ function AddPost() {
                 // Handle server responses, updating contexts for errors or successful operation messages.
                 if (!response.ok) {
                     if (data.errors) {
+                        setPostPublishingLoading(false);
                         setServerValidationErrors(data.errors.map(error => error.msg));
                     }
 
                     if (data.message) {
+                        setPostPublishingLoading(false);
                         setServerInternalError(data.message);
                     }
                 
@@ -109,55 +119,57 @@ function AddPost() {
     return (
         <div className={`${styles.addPost} addPost container-fluid`}>
             <div className="row m-auto">
-                <div className="col-12 col-xl-5 m-auto border border-secondary-subtle p-5 text-center">
+                <div className="col-12 col-xl-5 m-auto border border-secondary-subtle p-3 px-0 px-md-5 text-center">
                     <h2 className='mb-4 fw-bold'>Crea un nuovo post</h2>
-                {serverInternalError && <p className='alert alert-warning'>{serverInternalError}</p>}
-                <ul>
-                    {serverValidationErrors.map((serverValidationError, index) => (
-                        <li className='alert alert-warning' key={index}>{serverValidationError}</li>
-                    ))}
-                </ul>
-                <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
-                    
-                    <div className="position-relative">
-                        <label htmlFor='image_url'>Immagine del post</label>
-                        <input
-                            className='w-100'
-                            type="file"
-                            name='image_url'
-                            onChange={handleFileChange}
-                            onBlur={formik.handleBlur}
-                        />
-                    </div>
-                    {formik.touched.image_url && formik.errors.image_url ? <p className='alert alert-warning'>{formik.errors.image_url}</p> : null}
-                    
-                    <textarea
-                        placeholder='Scrivi una didascalia'
-                        className='w-100 mb-2'
-                        name="description"
-                        onChange={formik.handleChange}
-                        value={formik.values.description}
-                        onBlur={formik.handleBlur}
-                    />
-                    {formik.touched.description && formik.errors.description ? <p className='alert alert-warning'>{formik.errors.description}</p> : null}
-                    
-                    <div className="position-relative">
-                        <label htmlFor='location'>Luogo</label>
-                        <input
-                            placeholder='Es: Roma'
-                            className='w-100'
-                            type="text"
-                            name="location"
-                            onChange={formik.handleChange}
-                            value={formik.values.location}
-                            onBlur={formik.handleBlur}
-                        />
-                    </div>
-                    {formik.touched.location && formik.errors.location ? <p className='alert alert-warning'>{formik.errors.location}</p> : null}
-                    
-                    <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Pubblica Post</button>
-                    <button className='btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
-                </form>
+                    {serverInternalError && <p className='alert alert-warning'>{serverInternalError}</p>}
+                    <ul>
+                        {serverValidationErrors.map((serverValidationError, index) => (
+                            <li className='alert alert-warning' key={index}>{serverValidationError}</li>
+                        ))}
+                    </ul>
+
+                    {!postPublishingLoading ? (
+                        <form className='d-flex flex-column w-100' onSubmit={formik.handleSubmit}>
+                            <div className="position-relative">
+                                <label htmlFor='image_url'>Immagine del post</label>
+                                <input
+                                    className='w-100'
+                                    type="file"
+                                    name='image_url'
+                                    onChange={handleFileChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                            </div>
+                            {formik.touched.image_url && formik.errors.image_url ? <p className='alert alert-warning'>{formik.errors.image_url}</p> : null}
+                            
+                            <textarea
+                                placeholder='Scrivi una didascalia'
+                                className='w-100 mb-2'
+                                name="description"
+                                onChange={formik.handleChange}
+                                value={formik.values.description}
+                                onBlur={formik.handleBlur}
+                            />
+                            {formik.touched.description && formik.errors.description ? <p className='alert alert-warning'>{formik.errors.description}</p> : null}
+                            
+                            <div className="position-relative">
+                                <label htmlFor='location'>Luogo</label>
+                                <input
+                                    placeholder='Es: Roma'
+                                    className='w-100'
+                                    type="text"
+                                    name="location"
+                                    onChange={formik.handleChange}
+                                    value={formik.values.location}
+                                    onBlur={formik.handleBlur}
+                                />
+                            </div>
+                            {formik.touched.location && formik.errors.location ? <p className='alert alert-warning'>{formik.errors.location}</p> : null}
+                            
+                            <button className='mb-3 btn btn-primary fw-semibold border-0' type='submit'>Pubblica Post</button>
+                            <button className='btn btn-primary fw-semibold border-0' type='reset' onClick={handleReset}>Resetta i campi</button>
+                        </form>
+                    ) : <Loading />}
                 </div>
             </div>
         </div>
