@@ -5,7 +5,7 @@ import loading from '../assets/images/loading.gif';
 function Loading() {
     return (
         <div className="loading text-center">
-            <img src={loading} alt="Spinning circle" />
+            <img className='mw-100' src={loading} alt="Spinning circle" />
         </div>
     )
 }
