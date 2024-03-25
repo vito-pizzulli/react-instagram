@@ -65,14 +65,14 @@ function Home() {
             {confirmMessage && <p className="alert alert-success">{confirmMessage}</p>}
             {(serverInternalError && serverInternalError !== 'Nessun utente trovato.') && <p className="alert alert-danger">{serverInternalError}</p>}
             {!postsLoading ? (
-                posts.length > 0 ? (
-                    <>
-                        <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
+                <>
+                    <button className="btn btn-dark rounded-5 mb-5" onClick={handleAddPostNavigation}><i className="fa-solid fa-plus"></i> Crea un nuovo post</button>
+                    {posts.length > 0 ? (
                         <PostsContainer posts={posts} />
-                    </>
-                ) : (
-                    <p className="alert alert-info">Ancora nessun post.</p>
-                )
+                    ) : (
+                        <p className="alert alert-info">Ancora nessun post.</p>
+                    )}
+                </>
             ) : <Loading />}
         </div>
     );
